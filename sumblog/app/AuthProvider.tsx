@@ -10,7 +10,8 @@ export default function AuthProvider({ children }: Props) {
   return <SessionProvider>{children}</SessionProvider>;
 }
 
-//NOTE: if used directly in the layout it will throw an error
+//NOTE: if used directly in the layout it will throw an error (WHY LIDDAT T.T)
+// i found out why, read below:
 // uses client side features without saying is client compoenent
 // problem with nextjs component,
 // not all components in react specifies they're client components

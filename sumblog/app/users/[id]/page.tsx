@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
-import { Metadata } from "next";
+import { revalidatePath } from "next/cache";
+// import { Metadata } from "next";
+//consider adding metadata?
 
 interface Props {
   params: {
@@ -7,12 +9,11 @@ interface Props {
   };
 }
 
-//consider adding metadata?
-
 export default async function UserProfile({ params }: Props) {
   const user = await prisma.user.findUnique({ where: { id: params.id } });
   const { name, bio, image } = user ?? {};
-
+  console.log(user?.id);
+  revalidatePath(`/users/${user?.id}`);
   return (
     <div>
       <h1>{name}</h1>

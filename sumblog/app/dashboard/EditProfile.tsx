@@ -1,5 +1,6 @@
 "use client";
 
+// import { revalidatePath } from "next/cache";
 import React, { useEffect, useState } from "react";
 
 export default function EditProfile({ user }: any) {
@@ -23,9 +24,10 @@ export default function EditProfile({ user }: any) {
         image: updateImage,
       }),
     });
-    await res.json();
+    const data = await res.json();
+    // revalidatePath(`/users/${data.id}`);
+    alert("updated");
   };
-
   return (
     <div>
       <h1>Edit Profile</h1>

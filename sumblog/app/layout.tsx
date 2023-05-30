@@ -1,5 +1,5 @@
 import NavBar from "./NavBar";
-import AuthProvider from "./blog/AuthProvider";
+import AuthProvider from "./AuthProvider";
 import "./globals.css";
 import { Inter } from "next/font/google";
 
