@@ -3,8 +3,9 @@ import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import NextAuth from "next-auth";
 import type { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
-
+// similar to getSession, but more suited for database
 export const authOptions: NextAuthOptions = {
+  // configs below
   adapter: PrismaAdapter(prisma),
   providers: [
     GitHubProvider({
