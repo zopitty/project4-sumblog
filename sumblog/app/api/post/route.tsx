@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { authOptions } from "../auth/[...nextauth]/route";
 import { NextApiRequest } from "next";
 
-export async function PUT(req: NextApiRequest) {
+export async function PUT(req: Request) {
   // get user info
   const session = await getServerSession(authOptions);
   const currentUserEmail = session?.user?.email!;
@@ -13,7 +13,7 @@ export async function PUT(req: NextApiRequest) {
   });
   const currentUserId = user?.id!;
 
-  const { title, content } = req.body;
+  const { title, content } = await req.json();
 
   const registerPost = await prisma.post.create({
     data: {

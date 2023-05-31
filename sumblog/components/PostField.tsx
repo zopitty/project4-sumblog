@@ -16,14 +16,10 @@ export default function PostField() {
       },
       body: JSON.stringify({ title, content }),
     });
-    if (res.status === 200) {
-      console.log(`content:${content}`);
-      setContent("");
-      setTitle("");
-      router.refresh();
-    } else {
-      alert("error");
-    }
+    console.log(res);
+    setContent("");
+    setTitle("");
+    router.refresh();
   };
   return (
     <div>
@@ -39,7 +35,7 @@ export default function PostField() {
         value={content}
         onChange={(e) => setContent(e.target.value)}
       ></textarea>
-      <button onClick={postData}>Post!!!</button>
+      <button onClick={() => postData()}>Post!!!</button>
     </div>
   );
 }
