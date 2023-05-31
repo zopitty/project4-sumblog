@@ -50,6 +50,29 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  follower      Follows[] @relation("follower")
+  following     Follows[] @relation("following")
+  writtenPosts  Post[] @relation("WrittenPosts")
+}
+
+model Follows {
+Follower        User @relation("follower", fields: [followerUserId], references:[id])
+followerUserId  String
+Following       User @relation("following", fields:[followingUserId], references:[id])
+followingUserId String
+
+@@id([followerUserId, followingUserId])
+}
+
+model Post {
+  id            Int @id @default(autoincrement())
+  title         String?
+  content       String?
+  author        User @relation("WrittenPosts", fields:[userId], references:[id])
+  userId        String
+  heartCount    Int?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime?
 }
 
 model VerificationToken {
@@ -59,3 +82,6 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+// reminder: RUN --NPX PRISMA MIGRATE DEV-- AFTER UPDATE
+// if new updates, follow instructions to update migrate

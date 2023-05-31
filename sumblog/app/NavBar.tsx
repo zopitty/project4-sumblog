@@ -14,9 +14,9 @@ export default function NavBar() {
             <li>
               <Link href="/about">About</Link>
             </li>
-            <li>
+            {/* <li>
               <Link href="/Blog">Blog</Link>
-            </li>
+            </li> */}
             <li>
               <Link href="/users">Users</Link>
             </li>
