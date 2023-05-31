@@ -1,9 +1,10 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "../auth/[...nextauth]/route";
+import { revalidatePath } from "next/cache";
 
-export async function PATCH(req: Request) {
+export async function PATCH(req: NextRequest) {
   // authenticate
   const session = await getServerSession(authOptions);
   // access email on server
@@ -17,5 +18,8 @@ export async function PATCH(req: Request) {
     },
     data,
   });
+  const path = req.nextUrl.pathname;
+  console.log(path);
+  revalidatePath(path);
   return NextResponse.json(user);
 }

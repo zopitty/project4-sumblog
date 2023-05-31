@@ -2,6 +2,7 @@
 
 // import { revalidatePath } from "next/cache";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function EditProfile({ user }: any) {
   //initialise data
@@ -13,6 +14,7 @@ export default function EditProfile({ user }: any) {
     setUpdateBio(user?.bio ?? "");
     setUpdateImage(user?.image ?? "");
   }, []);
+  const router = useRouter();
 
   const updateProfile = async () => {
     const res = await fetch("/api/user", {
@@ -26,6 +28,7 @@ export default function EditProfile({ user }: any) {
     });
     const data = await res.json();
     // revalidatePath(`/users/${data.id}`);
+    router.refresh();
     alert("updated");
   };
   return (
