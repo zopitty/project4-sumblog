@@ -9,5 +9,5 @@ export default async function Home() {
   //   // return <p>You must be signed in...</p>;
   // }
 
-  return <main></main>;
+  return <main>hello</main>;
 }
