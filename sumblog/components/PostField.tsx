@@ -24,18 +24,37 @@ export default function PostField() {
   return (
     <div>
       <h3>Create Post</h3>
-      <input
-        type="text"
-        placeholder="title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <textarea
-        placeholder="content"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      ></textarea>
-      <button onClick={() => postData()}>Post!!!</button>
+      <div>
+        <input
+          type="text"
+          placeholder="Title"
+          id="small-input"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="sm:text-M block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+        />
+      </div>
+      <div className="mb-4 w-full rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700">
+        <div className="rounded-t-lg bg-white px-4 py-2 dark:bg-gray-800">
+          <textarea
+            id="comment"
+            rows={4}
+            className="w-full border-0 bg-white px-0 text-sm text-gray-900 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+            placeholder="Write a post..."
+            required
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          ></textarea>
+        </div>
+        <div className="flex items-center justify-between border-t px-3 py-2 dark:border-gray-600">
+          <button
+            onClick={() => postData()}
+            className="inline-flex items-center rounded-lg bg-blue-700 px-4 py-2.5 text-center text-xs font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900"
+          >
+            Post!!
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

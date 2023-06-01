@@ -70,7 +70,7 @@ model Post {
   content       String?
   author        User @relation("WrittenPosts", fields:[userId], references:[id])
   userId        String
-  heartCount    Int?
+  heartCount    Int? @default(0)
   createdAt     DateTime @default(now())
   updatedAt     DateTime?
 }

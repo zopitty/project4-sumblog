@@ -22,6 +22,7 @@ export default async function Home() {
     <main>
       <PostField />
       {posts.map((post) => {
+        console.log(post);
         return <PostDisplay key={post.id} {...post} />;
       })}
     </main>

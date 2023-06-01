@@ -54,7 +54,7 @@ CREATE TABLE "Post" (
     "title" TEXT,
     "content" TEXT,
     "userId" TEXT NOT NULL,
-    "heartCount" INTEGER,
+    "heartCount" INTEGER DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3),
 
