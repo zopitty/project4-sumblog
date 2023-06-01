@@ -12,6 +12,7 @@ export default async function Home() {
   //   // return <p>You must be signed in...</p>;
   // }
   const posts = await prisma.post.findMany({
+    include: { author: true },
     orderBy: {
       createdAt: "desc",
     },

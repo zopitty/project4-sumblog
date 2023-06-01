@@ -6,6 +6,7 @@ interface Props {
   content: string | null;
   createdAt: Date;
   heartCount: number | null;
+  author: { name: string | null };
 }
 
 export default function PostDisplay({
@@ -14,13 +15,19 @@ export default function PostDisplay({
   content,
   createdAt,
   heartCount,
+  author,
 }: Props) {
   return (
     <div className="w-full rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <ul className="flex flex-wrap rounded-t-lg border-b border-gray-200 bg-gray-50 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
         <li className="mr-2">
           <div className="inline-block p-4 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-            Author @ {createdAt.toString()}
+            {author["name"]} @ {createdAt.toString()}
+          </div>
+        </li>
+        <li>
+          <div className="inline-block p-4 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300">
+            Likes: {heartCount}
           </div>
         </li>
       </ul>
