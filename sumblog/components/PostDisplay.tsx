@@ -22,7 +22,9 @@ export default function PostDisplay({
       <ul className="flex flex-wrap rounded-t-lg border-b border-gray-200 bg-gray-50 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
         <li className="mr-2">
           <div className="inline-block p-4 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-            {author["name"]} @ {createdAt.toString()}
+            <Link href={`/posts/${id}`}>
+              {author["name"]} @ {createdAt.toString()}
+            </Link>
           </div>
         </li>
         <li>

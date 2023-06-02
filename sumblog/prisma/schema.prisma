@@ -51,6 +51,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   password      String?
+  role          String? @default("user")
   follower      Follows[] @relation("follower")
   following     Follows[] @relation("following")
   writtenPosts  Post[] @relation("WrittenPosts")
@@ -73,7 +74,14 @@ model Post {
   userId        String
   heartCount    Int? @default(0)
   createdAt     DateTime @default(now())
-  updatedAt     DateTime?
+}
+
+model Comment{
+  id            Int @id @default(autoincrement())
+}
+
+model Like {
+  id            Int @id
 }
 
 model VerificationToken {
