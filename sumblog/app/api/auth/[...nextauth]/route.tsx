@@ -66,25 +66,27 @@ export const authOptions: NextAuthOptions = {
   // if not, session will only have name, email and image
   callbacks: {
     //handle session that's passed around
-    session: async ({ session, token }) => {
-      // console.log("Session callback: ", { session, token });
+    session: ({ session, token }) => {
+      console.log("Session callback: ", { session, token });
       return {
         ...session,
         user: {
           ...session.user,
           id: token.id,
+          randomKey: token.randomKey,
         },
       };
     },
     //creation and management of jwt
     // jwt return NO USER(?) user - only the first time user logs in
-    jwt: async ({ token, user }) => {
-      // console.log("JWT callback: ", { token, user });
+    jwt: ({ token, user }) => {
+      console.log("JWT callback: ", { token, user });
       if (user) {
-        // const u = user as unknown as User;
+        const u = user as unknown as any;
         return {
           ...token,
           id: user.id,
+          randomKey: u.randomKey,
         };
       }
       return token;
