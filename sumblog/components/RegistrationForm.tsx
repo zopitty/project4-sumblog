@@ -1,6 +1,5 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { redirect } from "next/navigation";
 import React, { useState } from "react";
 
 export default function RegistrationForm() {
@@ -14,11 +13,10 @@ export default function RegistrationForm() {
       const res = await fetch("/api/register", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ name, email, password }),
       });
       if (res.ok) {
         signIn();
-
         console.log(res);
       } else {
         alert("please try another username/password");

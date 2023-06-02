@@ -94,7 +94,7 @@ export const authOptions: NextAuthOptions = {
   },
 };
 // THE FLOW: JWT callback first, user: defined then session
-//if we want to pass info, authorised > JWT > session
+//if we want to pass info, after authorised > user > JWT > session
 
 // any GET or POST request will be handled by nextauth
 const handler = NextAuth(authOptions);

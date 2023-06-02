@@ -1,5 +1,5 @@
 import Link from "next/link";
-import RegistrationForm from "./RegistrationForm";
+import RegistrationForm from "../../components/RegistrationForm";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
