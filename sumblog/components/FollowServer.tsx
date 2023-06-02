@@ -7,7 +7,7 @@ interface Props {
   targetId: string;
 }
 
-export default async function FollowServer({targetId}: Props) {
+export default async function FollowServer({ targetId }: Props) {
   const session = await getServerSession(authOptions);
 
   //can do this instead to get current user

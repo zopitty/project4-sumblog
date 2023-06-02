@@ -16,6 +16,7 @@ export default function PostField() {
       },
       body: JSON.stringify({ title, content }),
     });
+
     if (res.status === 200) {
       setContent("");
       setTitle("");
