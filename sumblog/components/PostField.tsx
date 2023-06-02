@@ -16,10 +16,14 @@ export default function PostField() {
       },
       body: JSON.stringify({ title, content }),
     });
-    console.log(res);
-    setContent("");
-    setTitle("");
-    router.refresh();
+    if (res.status === 200) {
+      setContent("");
+      setTitle("");
+      router.refresh();
+    } else {
+      console.log(res);
+      alert("you are not a registered user!");
+    }
   };
   return (
     <div>

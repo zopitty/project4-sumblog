@@ -1,6 +1,7 @@
 "use client";
 
 import { useSession, signIn, signOut } from "next-auth/react";
+import Image from "next/image";
 // have to configure if you wanna use Image, below just use img if you don't wanna configure
 import Link from "next/link";
 
@@ -15,8 +16,8 @@ export function SignInButton() {
     // default to some image if no profile picture
     return (
       <Link href={`/dashboard`}>
-        <img
-          src={session.user?.image ?? "defaultimg"}
+        <Image
+          src={session.user?.image ?? "/default-profile-icon-24.jpg"}
           width={32}
           height={32}
           alt="Your Name"

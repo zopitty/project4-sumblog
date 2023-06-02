@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import Image from "next/image";
 // import { Metadata } from "next";
 //consider adding metadata?
 
@@ -15,9 +16,11 @@ export default async function UserProfile({ params }: Props) {
   return (
     <div>
       <h1>{name}</h1>
-      <img
-        src={image ?? "../../public/default-profile-icon-24.jpg"}
+      <Image
+        src={image ?? "/default-profile-icon-24.jpg"}
         alt={`${name}'s profile`}
+        width={25}
+        height={25}
       />
       <h3>{bio}</h3>
     </div>

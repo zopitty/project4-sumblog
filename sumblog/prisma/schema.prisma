@@ -50,6 +50,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  password      String?
   follower      Follows[] @relation("follower")
   following     Follows[] @relation("following")
   writtenPosts  Post[] @relation("WrittenPosts")
@@ -83,5 +84,6 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// need to run npm i @vercel/postgres if using postgres
 // reminder: RUN --NPX PRISMA MIGRATE DEV-- AFTER UPDATE
 // if new updates, follow instructions to update migrate

@@ -1,4 +1,5 @@
 import { revalidatePath } from "next/cache";
+import Image from "next/image";
 import Link from "next/link";
 
 interface Props {
@@ -24,10 +25,12 @@ export default function UserCard({ id, name, image, bio }: Props) {
     // </div>
     <div className="w-full max-w-xs rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <div className="flex flex-col items-center p-10">
-        <img
+        <Image
           className="mb-3 h-24 w-24 rounded-full shadow-lg"
-          src={image ?? "../public/default-profile-icon-24.jpg"}
+          src={image ?? "/default-profile-icon-24.jpg"}
           alt={`${name}'s profile`}
+          width={100}
+          height={100}
         />
         <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
           {name}

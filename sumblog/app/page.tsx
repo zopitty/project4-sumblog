@@ -6,11 +6,12 @@ import PostDisplay from "@/components/PostDisplay";
 
 export default async function Home() {
   // protect the route
-  // const session = await getServerSession();
+  const session = await getServerSession();
   // if (!session) {
   //   redirect("/api/auth/signin");
   //   // return <p>You must be signed in...</p>;
   // }
+
   const posts = await prisma.post.findMany({
     include: { author: true },
     orderBy: {
@@ -20,9 +21,9 @@ export default async function Home() {
 
   return (
     <main>
+      {JSON.stringify(session)}
       <PostField />
       {posts.map((post) => {
-        console.log(post);
         return <PostDisplay key={post.id} {...post} />;
       })}
     </main>

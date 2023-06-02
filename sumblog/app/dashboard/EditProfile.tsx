@@ -12,7 +12,7 @@ export default function EditProfile({ user }: any) {
   useEffect(() => {
     setUpdateName(user?.name ?? "");
     setUpdateBio(user?.bio ?? "");
-    setUpdateImage(user?.image ?? "");
+    setUpdateImage(user?.image ?? "/default-profile-icon-24.jpg");
   }, []);
   const router = useRouter();
 
