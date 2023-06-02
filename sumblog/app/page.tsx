@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import PostDisplay from "@/components/PostDisplay";
+import AuthCheck from "@/components/AuthCheck";
 
 export default async function Home() {
   // protect the route
@@ -22,7 +23,9 @@ export default async function Home() {
   return (
     <main>
       {JSON.stringify(session)}
-      <PostField />
+      <AuthCheck>
+        <PostField />
+      </AuthCheck>
       {posts.map((post) => {
         return <PostDisplay key={post.id} {...post} />;
       })}

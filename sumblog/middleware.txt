@@ -1,0 +1,9 @@
+export { default } from "next-auth/middleware";
+// SHOULD kick everyone out (idk how to use this)
+
+// add this to specify pages(?)
+export const config = {
+  matcher: ["/dashboard", "/someroute/:path*"],
+};
+
+// path* - protects all under the same /someroute/ sub paths

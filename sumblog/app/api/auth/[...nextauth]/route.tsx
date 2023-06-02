@@ -18,20 +18,8 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.GITHUB_ID!,
       clientSecret: process.env.GITHUB_SECRET!,
     }),
-    // CredentialsProvider({
-    //   name: "as Guest",
-    //   credentials: {},
-    //   async authorize(credentials) {
-    //     const user = {
-    //       id: Math.random().toString(),
-    //       name: "Guest",
-    //       email: "guest@examples.com",
-    //     };
-    //     return user;
-    //   },
-    // }),
     CredentialsProvider({
-      name: "Sign in",
+      name: "Credentials",
       credentials: {
         email: {
           label: "Email",
@@ -62,14 +50,47 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
         return {
-          id: user.id + "",
+          id: user.id + "", //making it a string type kek
           email: user.email,
           name: user.name,
+          randomKey: "monkey",
         };
       },
     }),
   ],
+  // use callbacks to take info from the jwt to put into session
+  // if not, session will only have name, email and image
+  callbacks: {
+    //handle session that's passed around
+    session: ({ session, token }) => {
+      console.log("Session callback: ", { session, token });
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.id,
+          randomKey: token.randomKey,
+        },
+      };
+    },
+    //creation and management of jwt
+    // user - only the first time user logs in
+    jwt: ({ token, user }) => {
+      console.log("JWT callback: ", { token, user });
+      if (user) {
+        const u = user as unknown as any;
+        return {
+          ...token,
+          id: user.id,
+          randomKey: u.randomKey,
+        };
+      }
+      return token;
+    },
+  },
 };
+// THE FLOW: JWT callback first, user: defined then session
+//if we want to pass info, authorised > JWT > session
 
 // any GET or POST request will be handled by nextauth
 const handler = NextAuth(authOptions);
