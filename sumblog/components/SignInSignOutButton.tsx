@@ -25,7 +25,12 @@ export function SignInButton() {
       </Link>
     );
   }
-  return <button onClick={() => signIn()}>Sign In</button>;
+  return (
+    <>
+      <button onClick={() => signIn()}>Sign In/ </button>
+      <Link href="/register">Register</Link>
+    </>
+  );
 }
 
 export function SignOutButton() {

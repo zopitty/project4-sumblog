@@ -26,7 +26,11 @@ export const authOptions: NextAuthOptions = {
           type: "email",
           placeholder: "hello@example.com",
         },
-        password: { label: "Password", type: "password" },
+        password: {
+          label: "Password",
+          placeholder: "password",
+          type: "password",
+        },
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
@@ -74,7 +78,7 @@ export const authOptions: NextAuthOptions = {
       };
     },
     //creation and management of jwt
-    // user - only the first time user logs in
+    // jwt return NO USER(?) user - only the first time user logs in
     jwt: ({ token, user }) => {
       console.log("JWT callback: ", { token, user });
       if (user) {

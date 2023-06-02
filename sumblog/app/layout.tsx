@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <AuthProvider>
       <html lang="en">
-        <body>
+        <body className="bg-slate-500">
           <NavBar />
           {children}
         </body>
