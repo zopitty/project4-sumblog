@@ -20,10 +20,22 @@ export default async function Dashboard() {
       email: currentUserEmail,
     },
   });
+  const currentUserId = user?.id!;
+  const countFollowing = await prisma.follows.count({
+    where: { followerUserId: currentUserId },
+  });
+  const countFollowers = await prisma.follows.count({
+    where: { followingUserId: currentUserId },
+  });
+
+  console.log(countFollowers);
 
   return (
     <>
       <h1>Dashboard</h1>
+      <h2>
+        FOLLOWING: {countFollowing} FOLLOWERS: {countFollowers}
+      </h2>
       <EditProfile user={user} />
     </>
   );
