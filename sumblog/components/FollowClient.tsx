@@ -23,7 +23,7 @@ export default function FollowClient({ targetId, isFollowing }: Props) {
   };
 
   const unfollow = async () => {
-    const res = await fetch(`/api/follow?targetUserId=${targetId}`, {
+    const res = await fetch(`/api/follow?targetId=${targetId}`, {
       method: "DELETE",
     });
     console.log(res);
