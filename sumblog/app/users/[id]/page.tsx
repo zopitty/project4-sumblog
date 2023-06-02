@@ -1,3 +1,5 @@
+import FollowClient from "@/components/FollowClient";
+import FollowServer from "@/components/FollowServer";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
 // import { Metadata } from "next";
@@ -23,6 +25,8 @@ export default async function UserProfile({ params }: Props) {
         height={25}
       />
       <h3>{bio}</h3>
+      {/* @ts-expect-error */}
+      <FollowServer targetId={params.id} />
     </div>
   );
 }

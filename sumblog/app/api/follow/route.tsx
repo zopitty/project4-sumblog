@@ -25,4 +25,22 @@ export async function PUT(req: Request) {
   return NextResponse.json(registerFollow);
 }
 
-export async function DELETE(req: NextRequest) {}
+export async function DELETE(req: NextRequest) {
+  const session = await getServerSession(authOptions);
+  const currentUserEmail = session?.user?.email!;
+  const targetId = req.nextUrl.searchParams.get("targetId");
+
+  const user = await prisma.user.findUnique({
+    where: { email: currentUserEmail },
+  });
+  const currentUserId = user?.id!;
+  const removeFollow = await prisma.follows.delete({
+    where: {
+      followerUserId_followingUserId: {
+        followerUserId: currentUserId,
+        followingUserId: targetId!,
+      },
+    },
+  });
+  return NextResponse.json(removeFollow);
+}
