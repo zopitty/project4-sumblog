@@ -11,6 +11,7 @@ export default async function IndividualPostDisplay({ params }: Props) {
     where: { id: Number(params.id) },
     include: { author: true },
   });
+
   return (
     <div>
       <h1>

@@ -8,7 +8,7 @@ import EditProfile from "./EditProfile";
 
 export default async function Dashboard() {
   // access session (check if session still valid)
-  // authOptions needs to be passed in (from NextAuth Docs)
+  // authOptions needs to be passed in (NextAuth Docs)
   const session = await getServerSession(authOptions);
   if (!session) {
     redirect("/api/auth/signin");
@@ -21,14 +21,14 @@ export default async function Dashboard() {
     },
   });
   const currentUserId = user?.id!;
+
+  // access following & follower count
   const countFollowing = await prisma.follows.count({
     where: { followerUserId: currentUserId },
   });
   const countFollowers = await prisma.follows.count({
     where: { followingUserId: currentUserId },
   });
-
-  console.log(countFollowers);
 
   return (
     <>
