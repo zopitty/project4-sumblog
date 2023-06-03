@@ -25,22 +25,7 @@ export async function PUT(req: Request) {
   return NextResponse.json(registerPost);
 }
 
-//updating posts (by user ID/Post id)
-export async function PATCH(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  const id = params.id;
-  const data = await req.json();
-  // data.xxx = Number(data.xxx), if database expecting number, ie want to patch number
-
-  // console.log(data);
-  const user = await prisma.post.update({
-    where: {
-      id: Number(id),
-    },
-    data,
-  });
-
-  return NextResponse.json(user);
+export async function GET(req: Request) {
+  const posts = await prisma.post.findMany();
+  return NextResponse.json(posts);
 }
