@@ -11,7 +11,7 @@ export default async function Dashboard() {
   // authOptions needs to be passed in (NextAuth Docs)
   const session = await getServerSession(authOptions);
   if (!session) {
-    redirect("/api/auth/signin");
+    redirect("/");
   }
   // throwing me errors without '!' pls stop
   const currentUserEmail = session?.user?.email!;

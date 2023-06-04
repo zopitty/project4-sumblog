@@ -8,7 +8,7 @@ export default async function Stalker() {
   // access user -> find an easier way to do this
   const session = await getServerSession(authOptions);
   if (!session) {
-    redirect("/api/auth/signin");
+    redirect("/register");
   }
   const currentUserEmail = session?.user?.email!;
   const user = await prisma.user.findUnique({

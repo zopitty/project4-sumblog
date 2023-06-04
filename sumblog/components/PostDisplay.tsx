@@ -21,16 +21,12 @@ export default function PostDisplay({
     <div className="w-full rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <ul className="flex flex-wrap rounded-t-lg border-b border-gray-200 bg-gray-50 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
         <li className="mr-2">
-          <div className="inline-block p-4 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-            <Link href={`/posts/${id}`}>
-              {author["name"]} @ {createdAt.toString()}
-            </Link>
+          <div className="inline-block p-4">
+            {author["name"]} @ {createdAt.toString()}
           </div>
         </li>
         <li>
-          <div className="inline-block p-4 hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-700 dark:hover:text-gray-300">
-            Likes: {heartCount}
-          </div>
+          <div className="inline-block p-4">Likes: {heartCount}</div>
         </li>
       </ul>
 
@@ -39,15 +35,16 @@ export default function PostDisplay({
           {title}
         </h2>
         <p className="mb-3 text-gray-500 dark:text-gray-400">{content}</p>
-        <a
-          href="#"
+
+        <Link
+          href={`/posts/${id}`}
           className="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700"
         >
           Read more
           <svg className="ml-1 h-6 w-6" fill="currentColor" viewBox="0 0 20 20">
             <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"></path>
           </svg>
-        </a>
+        </Link>
       </div>
     </div>
   );

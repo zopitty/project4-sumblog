@@ -8,7 +8,7 @@ export default async function Users() {
   // access user -> find an easier way to do this
   const session = await getServerSession(authOptions);
   if (!session) {
-    redirect("/api/auth/signin");
+    redirect("/register");
   }
   const currentUserEmail = session?.user?.email!;
   const user = await prisma.user.findUnique({
@@ -30,7 +30,7 @@ export default async function Users() {
   // (end) get all users except for current user
 
   return (
-    <div className="flex h-screen w-screen items-center justify-center bg-slate-500">
+    <div className="flex flex-wrap gap-3 bg-slate-500 p-6">
       {users.map((user) => {
         return <UserCard key={user.id} {...user} />;
       })}
