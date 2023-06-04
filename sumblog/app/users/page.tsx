@@ -18,6 +18,8 @@ export default async function Users() {
   });
   const currentUserId = user?.id!;
   // (end) access user
+
+  // get all users except for current user
   const users = await prisma.user.findMany({
     where: {
       NOT: {
@@ -25,6 +27,8 @@ export default async function Users() {
       },
     },
   });
+  // (end) get all users except for current user
+
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-slate-500">
       {users.map((user) => {

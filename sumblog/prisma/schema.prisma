@@ -80,7 +80,7 @@ model Post {
   author        User @relation("WrittenPosts", fields:[userId], references:[id])
   userId        String
 
-  comments      Comment[]
+  comments      Comment[] @relation("PostComments")
 
 // to be removed
   heartCount    Int? @default(0) 
@@ -89,17 +89,19 @@ model Post {
 
 model Comment {
   id            Int @id @default(autoincrement())
-  comment       String
+  comment       String?
 
   author        User @relation("WrittenComments", fields:[userId], references:[id])
   userId        String
 
-  post          Post @relation(fields:[postId], references:[id])
+  post          Post @relation("PostComments", fields:[postId], references:[id])
   postId        Int
 
-  children      Comment[] @relation("ParentChild")
-  parent        Comment? @relation("ParentChild", fields: [parentId], references: [id])
-  parentId      Int?
+  createdAt     DateTime @default(now())
+
+  // children      Comment[] @relation("ParentChild")
+  // parent        Comment? @relation("ParentChild", fields: [parentId], references: [id])
+  // parentId      Int?
 }
 
 model Likes {

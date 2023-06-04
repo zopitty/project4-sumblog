@@ -12,9 +12,7 @@ export async function PUT(req: Request) {
     where: { email: currentUserEmail },
   });
   const currentUserId = user?.id!;
-
   const { title, content } = await req.json();
-
   const registerPost = await prisma.post.create({
     data: {
       userId: currentUserId,

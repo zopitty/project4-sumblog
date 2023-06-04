@@ -32,12 +32,12 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT,
     "bio" TEXT,
-    "age" INTEGER,
+    "role" TEXT DEFAULT 'user',
     "email" TEXT,
+    "password" TEXT,
+    "age" INTEGER,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
-    "password" TEXT,
-    "role" TEXT DEFAULT 'user',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -58,9 +58,27 @@ CREATE TABLE "Post" (
     "userId" TEXT NOT NULL,
     "heartCount" INTEGER DEFAULT 0,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3),
 
     CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Comment" (
+    "id" SERIAL NOT NULL,
+    "comment" TEXT,
+    "userId" TEXT NOT NULL,
+    "postId" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Comment_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Likes" (
+    "userId" TEXT NOT NULL,
+    "postId" INTEGER NOT NULL,
+
+    CONSTRAINT "Likes_pkey" PRIMARY KEY ("userId","postId")
 );
 
 -- CreateTable
@@ -99,3 +117,15 @@ ALTER TABLE "Follows" ADD CONSTRAINT "Follows_followingUserId_fkey" FOREIGN KEY 
 
 -- AddForeignKey
 ALTER TABLE "Post" ADD CONSTRAINT "Post_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Comment" ADD CONSTRAINT "Comment_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Likes" ADD CONSTRAINT "Likes_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Likes" ADD CONSTRAINT "Likes_postId_fkey" FOREIGN KEY ("postId") REFERENCES "Post"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

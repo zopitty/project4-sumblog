@@ -22,7 +22,7 @@ export default function PostField() {
       router.refresh();
     } else {
       console.log(res);
-      alert("you are not a registered user!");
+      alert("error");
     }
   };
   return (
