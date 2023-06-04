@@ -40,7 +40,6 @@ export async function PUT(
       ...data,
       postId: Number(params.id),
       userId: currentUserId,
-      //postId
     },
   });
   return new NextResponse(JSON.stringify(created));

@@ -1,3 +1,4 @@
+import CommentDisplay from "@/components/CommentDisplay";
 import CommentField from "@/components/CommentField";
 import { prisma } from "@/lib/prisma";
 
@@ -20,6 +21,7 @@ export default async function IndividualPostDisplay({ params }: Props) {
   const comments = await prisma.comment.findMany({
     where: {
       postId: Number(params.id),
+      parentId: null,
     },
     include: {
       author: {
@@ -30,7 +32,7 @@ export default async function IndividualPostDisplay({ params }: Props) {
     },
     orderBy: { createdAt: "desc" },
   });
-
+  // console.log(comments[0]);
   return (
     <div className="flex h-screen w-screen flex-col gap-3 p-6">
       <span className="text-1xl">
@@ -43,11 +45,7 @@ export default async function IndividualPostDisplay({ params }: Props) {
       <CommentField postId={params.id} />
 
       {comments.map((comment) => {
-        return (
-          <div className="border-[1px] border-zinc-400" key={comment.id}>
-            {comment.comment} BY {comment.author.name}
-          </div>
-        );
+        return <CommentDisplay key={comment.id} {...comment} />;
       })}
     </div>
   );

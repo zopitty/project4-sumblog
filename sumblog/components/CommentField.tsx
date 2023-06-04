@@ -10,6 +10,7 @@ export default function CommentField({ postId }: Props) {
   const router = useRouter();
 
   const postComment = async (e: React.FormEvent) => {
+    e.preventDefault();
     const res = await fetch(`/api/post/${postId}/comment`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },

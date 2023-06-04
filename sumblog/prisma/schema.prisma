@@ -99,9 +99,9 @@ model Comment {
 
   createdAt     DateTime @default(now())
 
-  // children      Comment[] @relation("ParentChild")
-  // parent        Comment? @relation("ParentChild", fields: [parentId], references: [id])
-  // parentId      Int?
+  children      Comment[] @relation("ParentChild")
+  parent        Comment? @relation("ParentChild", fields: [parentId], references: [id])
+  parentId      Int?
 }
 
 model Likes {
