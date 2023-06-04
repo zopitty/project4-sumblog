@@ -24,6 +24,14 @@ export default function CommentDisplay({
   const router = useRouter();
   const [replies, setReplies] = useState<Props[]>([]);
 
+  // const f = new Intl.DateTimeFormat("en-GB", {
+  //   dateStyle: "short",
+  //   timeStyle: "short",
+  //   timeZone: "Singapore",
+  // });
+
+  // const newDate = f.format(createdAt);
+
   const postReply = async (e: React.FormEvent) => {
     e.preventDefault();
     const res = await fetch(`/api/post/${postId}/comment`, {
@@ -53,47 +61,48 @@ export default function CommentDisplay({
   }, [postReply]);
 
   return (
-    <>
-      <div className="flex w-1/2 flex-col border-[1px] border-zinc-400">
-        <span>
-          {comment} BY {author.name}
-        </span>
-        {isReplying ? (
-          <button
-            onClick={() => setIsReplying(false)}
-            className="w-28 rounded-full border-[1px] border-zinc-400"
-          >
-            cancel
+    <div className="flex flex-col border-[1px] border-zinc-400 p-3">
+      <span>
+        {author.name} @ {createdAt.toString()}
+      </span>
+      <span>{comment}</span>
+      {isReplying ? (
+        <button
+          onClick={() => setIsReplying(false)}
+          className="w-28 rounded-full border-[1px] border-zinc-400"
+        >
+          cancel
+        </button>
+      ) : (
+        <button
+          onClick={() => setIsReplying(true)}
+          className="w-28 rounded-full border-[1px] border-zinc-400"
+        >
+          reply
+        </button>
+      )}
+      {isReplying && (
+        <form onSubmit={postReply} className="flex flex-col gap-2">
+          <input
+            autoFocus
+            type="text"
+            value={subComment}
+            onChange={(e) => setSubComment(e.target.value)}
+            placeholder="What are your thoughts"
+            className="w-1/2 border-[1px] border-zinc-400 p-4"
+          />
+          <button className="w-28 rounded-full border-[1px] border-zinc-400">
+            Comment
           </button>
-        ) : (
-          <button
-            onClick={() => setIsReplying(true)}
-            className="w-28 rounded-full border-[1px] border-zinc-400"
-          >
-            reply
-          </button>
-        )}
-        {isReplying && (
-          <form onSubmit={postReply} className="flex flex-col gap-2">
-            <input
-              type="text"
-              value={subComment}
-              onChange={(e) => setSubComment(e.target.value)}
-              placeholder="What are your thoughts"
-              className="w-1/2 border-[1px] border-zinc-400 p-4"
-            />
-            <button className="w-28 rounded-full border-[1px] border-zinc-400">
-              Comment
-            </button>
-          </form>
-        )}
-        {/* {replies.map((reply) => {
-          return <div key={reply.id}>{reply.comment}</div>;
-        })} */}
-        {replies.map((reply) => {
-          return <CommentDisplay key={reply.id} {...reply} />;
-        })}
-      </div>
-    </>
+        </form>
+      )}
+      {replies?.length > 0 && (
+        <div className="mt-2">
+          {replies.map((reply) => {
+            return <CommentDisplay key={reply.id} {...reply} />;
+          })}
+        </div>
+      )}
+    </div>
   );
 }

@@ -30,7 +30,7 @@ export default function CommentField({ postId }: Props) {
         type="text"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        placeholder="What are your thoughts"
+        placeholder="Comments..."
         className="w-1/2 border-[1px] border-zinc-400 p-4"
       />
       <button className="w-28 rounded-full border-[1px] border-zinc-400">

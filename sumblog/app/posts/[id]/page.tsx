@@ -10,6 +10,7 @@ interface Props {
 interface Comment {
   comment: string;
   id: number;
+  createdAt: Date;
 }
 export default async function IndividualPostDisplay({ params }: Props) {
   const postInfo = await prisma.post.findUnique({
@@ -33,6 +34,7 @@ export default async function IndividualPostDisplay({ params }: Props) {
     orderBy: { createdAt: "desc" },
   });
   // console.log(comments[0]);
+ 
   return (
     <div className="flex h-screen w-screen flex-col gap-3 p-6">
       <span className="text-1xl">

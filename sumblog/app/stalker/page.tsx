@@ -39,10 +39,11 @@ export default async function Stalker() {
   // (end) access following's post
 
   return (
-    <div>
+    <>
+      {postsByFollowing.length === 0 && <>FOLLOW SOMEONE!</>}
       {postsByFollowing.map((post) => {
         return <PostDisplay key={post.id} {...post} />;
       })}
-    </div>
+    </>
   );
 }
