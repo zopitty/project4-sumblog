@@ -1,4 +1,6 @@
+"use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Props {
   id: number;
@@ -17,6 +19,23 @@ export default function PostDisplay({
   heartCount,
   author,
 }: Props) {
+  const router = useRouter();
+
+  const deletePost = async (id: number) => {
+    const res = await fetch(`/api/post/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (res.status === 200) {
+      router.refresh();
+    } else {
+      console.log(res);
+      alert("error");
+    }
+  };
+
   return (
     <div className="w-full rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <ul className="flex flex-wrap rounded-t-lg border-b border-gray-200 bg-gray-50 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
@@ -27,6 +46,9 @@ export default function PostDisplay({
         </li>
         <li>
           <div className="inline-block p-4">Likes: {heartCount}</div>
+        </li>
+        <li>
+          <button onClick={() => deletePost(id)}>DELETE</button>
         </li>
       </ul>
 

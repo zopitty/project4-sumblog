@@ -94,13 +94,13 @@ model Comment {
   author        User @relation("WrittenComments", fields:[userId], references:[id])
   userId        String
 
-  post          Post @relation("PostComments", fields:[postId], references:[id])
+  post          Post @relation("PostComments", fields:[postId], references:[id], onDelete: Cascade)
   postId        Int
 
   createdAt     DateTime @default(now())
 
   children      Comment[] @relation("ParentChild")
-  parent        Comment? @relation("ParentChild", fields: [parentId], references: [id])
+  parent        Comment? @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
   parentId      Int?
 }
 
