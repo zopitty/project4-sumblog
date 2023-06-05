@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface Props {
   id: number;
@@ -19,8 +20,8 @@ export default function PostDisplay({
   heartCount,
   author,
 }: Props) {
+  const [isUpdating, setIsUpdating] = useState(false);
   const router = useRouter();
-
   const deletePost = async (id: number) => {
     const res = await fetch(`/api/post/${id}`, {
       method: "DELETE",
@@ -47,9 +48,7 @@ export default function PostDisplay({
         <li>
           <div className="inline-block p-4">Likes: {heartCount}</div>
         </li>
-        <li>
-          <button onClick={() => deletePost(id)}>DELETE</button>
-        </li>
+        <button onClick={() => deletePost(id)}>DELETE</button>
       </ul>
 
       <div className="rounded-lg bg-white p-4 dark:bg-gray-800 md:p-8">

@@ -24,13 +24,19 @@ export default function CommentDisplay({
   const router = useRouter();
   const [replies, setReplies] = useState<Props[]>([]);
 
-  // const f = new Intl.DateTimeFormat("en-GB", {
-  //   dateStyle: "short",
-  //   timeStyle: "short",
-  //   timeZone: "Singapore",
-  // });
+  const f = new Intl.DateTimeFormat("en-GB", {
+    dateStyle: "short",
+    timeStyle: "long",
+    timeZone: "Singapore",
+  });
 
-  // const newDate = f.format(createdAt);
+  const newDate = f.format(new Date(createdAt));
+  const getReplies = async () => {
+    const res = await fetch(`/api/post/${postId}/comment/${id}`);
+    const data = await res.json();
+    console.log("test");
+    setReplies(data);
+  };
 
   const postReply = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,26 +50,21 @@ export default function CommentDisplay({
       setSubComment("");
       setIsReplying(false);
       router.refresh();
+      getReplies();
     } else {
       console.log(res);
       alert("error");
     }
   };
 
-  const getReplies = async () => {
-    const res = await fetch(`/api/post/${postId}/comment/${id}`);
-    const data = await res.json();
-    setReplies(data);
-  };
-
   useEffect(() => {
     getReplies();
-  }, [postReply]);
+  }, []);
 
   return (
     <div className="flex flex-col border-[1px] border-zinc-400 p-3">
       <span>
-        {author.name} @ {createdAt.toString()}
+        {author.name} @ {newDate}
       </span>
       <span>{comment}</span>
       {isReplying ? (

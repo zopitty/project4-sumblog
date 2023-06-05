@@ -34,7 +34,7 @@ export default async function IndividualPostDisplay({ params }: Props) {
     orderBy: { createdAt: "desc" },
   });
   // console.log(comments[0]);
- 
+
   return (
     <div className="flex h-screen w-screen flex-col gap-3 p-6">
       <span className="text-1xl">
@@ -45,7 +45,6 @@ export default async function IndividualPostDisplay({ params }: Props) {
       <h3>Content: {postInfo?.content}</h3>
       <h1>COMMENTS SECTION</h1>
       <CommentField postId={params.id} />
-
       {comments.map((comment) => {
         return <CommentDisplay key={comment.id} {...comment} />;
       })}
