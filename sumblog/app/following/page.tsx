@@ -20,14 +20,15 @@ export default async function Followers() {
   // (end) access user
 
   const users = await prisma.follows.findMany({
-    include: { follower: true },
-    where: { followingUserId: currentUserId },
+    include: { following: true },
+    where: { followerUserId: currentUserId },
   });
+  console.log(users);
 
   return (
     <div className="flex flex-wrap gap-3 bg-slate-500 p-6">
       {users.map((user) => {
-        return <UserCard key={user.follower.id} {...user.follower} />;
+        return <UserCard key={user.following.id} {...user.following} />;
       })}
     </div>
   );

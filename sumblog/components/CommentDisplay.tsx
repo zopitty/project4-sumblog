@@ -25,8 +25,8 @@ export default function CommentDisplay({
   const [replies, setReplies] = useState<Props[]>([]);
 
   const f = new Intl.DateTimeFormat("en-GB", {
-    dateStyle: "short",
-    timeStyle: "long",
+    dateStyle: "long",
+    timeStyle: "short",
     timeZone: "Singapore",
   });
 
@@ -34,7 +34,6 @@ export default function CommentDisplay({
   const getReplies = async () => {
     const res = await fetch(`/api/post/${postId}/comment/${id}`);
     const data = await res.json();
-    console.log("test");
     setReplies(data);
   };
 
@@ -46,7 +45,6 @@ export default function CommentDisplay({
       body: JSON.stringify({ comment: subComment, parentId: id }),
     });
     if (res.status === 200) {
-      console.log(replies);
       setSubComment("");
       setIsReplying(false);
       router.refresh();

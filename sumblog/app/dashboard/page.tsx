@@ -5,6 +5,7 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import EditProfile from "./EditProfile";
+import Link from "next/link";
 
 export default async function Dashboard() {
   // access session (check if session still valid)
@@ -34,7 +35,8 @@ export default async function Dashboard() {
     <>
       <h1>Dashboard</h1>
       <h2>
-        FOLLOWING: {countFollowing} FOLLOWERS: {countFollowers}
+        <Link href="/following">FOLLOWING: {countFollowing}</Link>{" "}
+        <Link href="/followers">FOLLOWERS: {countFollowers}</Link>
       </h2>
       <EditProfile user={user} />
     </>
