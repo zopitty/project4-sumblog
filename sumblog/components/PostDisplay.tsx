@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   id: number;
@@ -22,6 +22,7 @@ export default function PostDisplay({
 }: Props) {
   const [isUpdating, setIsUpdating] = useState(false);
   const [newPost, setNewPost] = useState("");
+  const [likes, setLikes] = useState(0);
   const router = useRouter();
   const deletePost = async (id: number) => {
     const res = await fetch(`/api/post/${id}`, {
@@ -48,6 +49,16 @@ export default function PostDisplay({
     });
   };
 
+  const getLikesCount = async (id: number) => {
+    const res = await fetch(`/api/post/${id}/likes`);
+    const data = await res.json();
+    console.log(data);
+    setLikes(Number(data));
+  };
+  useEffect(() => {
+    getLikesCount(id);
+  }, []);
+
   const f = new Intl.DateTimeFormat("en-GB", {
     dateStyle: "long",
     timeStyle: "short",
@@ -55,6 +66,7 @@ export default function PostDisplay({
   });
 
   const newDate = f.format(new Date(createdAt));
+
   return (
     <div className="w-full rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <ul className="flex flex-wrap rounded-t-lg border-b border-gray-200 bg-gray-50 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-400">
@@ -64,7 +76,7 @@ export default function PostDisplay({
           </div>
         </li>
         <li>
-          <div className="inline-block p-4">Likes: {heartCount}</div>
+          <div className="inline-block p-4">Likes: {likes}</div>
         </li>
         <button onClick={() => deletePost(id)}>DELETE</button>
         {isUpdating ? (

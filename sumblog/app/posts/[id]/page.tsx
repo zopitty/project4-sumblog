@@ -1,5 +1,6 @@
 import CommentDisplay from "@/components/CommentDisplay";
 import CommentField from "@/components/CommentField";
+import LikeServer from "@/components/LikeServer";
 import { prisma } from "@/lib/prisma";
 
 interface Props {
@@ -37,6 +38,8 @@ export default async function IndividualPostDisplay({ params }: Props) {
 
   return (
     <div className="flex h-screen w-screen flex-col gap-3 p-6">
+      {/* @ts-expect-error */}
+      <LikeServer targetId={params.id} />
       <span className="text-1xl">
         a post by {postInfo?.author.name} Created:{" "}
         {postInfo?.createdAt.toString()}

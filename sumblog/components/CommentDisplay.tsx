@@ -1,4 +1,5 @@
 "use client";
+
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -54,6 +55,22 @@ export default function CommentDisplay({
       alert("error");
     }
   };
+  const deleteComment = async (id: number) => {
+    const res = await fetch(`/api/post/${postId}/comment/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (res.status === 200) {
+      alert("deleted");
+      router.refresh();
+      getReplies();
+
+
+    } else {
+      console.log(res);
+      alert("error");
+    }
+  };
 
   useEffect(() => {
     getReplies();
@@ -65,6 +82,7 @@ export default function CommentDisplay({
         {author.name} @ {newDate}
       </span>
       <span>{comment}</span>
+      <button onClick={() => deleteComment(id)}>DELETE</button>
       {isReplying ? (
         <button
           onClick={() => setIsReplying(false)}

@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 // updating posts (by user ID/Post id)
-// note: usually PUT is to replace the whole thine
+// note: usually PUT is to replace the whole thing
 // PATCH just the bits that you want updated
 export async function PATCH(
   req: Request,
