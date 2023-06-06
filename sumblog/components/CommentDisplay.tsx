@@ -40,7 +40,7 @@ export default function CommentDisplay({
     });
     const data = await res.json();
     setReplies(data);
-    console.log(replies);
+    console.log("GETTING ID: ", id);
   };
 
   const postReply = async (e: React.FormEvent) => {
@@ -53,8 +53,8 @@ export default function CommentDisplay({
     if (res.status === 200) {
       setSubComment("");
       setIsReplying(false);
-      // router.refresh();
       getReplies();
+      setReplies([]);
     } else {
       console.log(res);
       alert("error");
@@ -65,10 +65,23 @@ export default function CommentDisplay({
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
+
     if (res.status === 200) {
-      getReplies();
+      // setReplies((prevComments) => {
+      //   return prevComments.filter((comment) => comment.id !== id);
+      // });
+
+      // const res = await fetch(`/api/post/${postId}/comment/${id}`, {
+      //   cache: "no-store",
+      // });
+      // const data = await res.json();
+      setReplies([]);
+      // setReplies((prevComments) =>
+      //   prevComments.filter((comment) => comment.id !== id)
+      // );
+      console.log("DELETE ID: ", id);
+      console.log(replies);
       router.refresh();
-      // alert("deleted");
     } else {
       console.log(res);
       alert("error");
@@ -121,13 +134,14 @@ export default function CommentDisplay({
           </button>
         </form>
       )}
-      {replies?.length > 0 && (
-        <div className="mt-2">
-          {replies.map((reply) => {
-            return <CommentDisplay key={reply.id} {...reply} />;
-          })}
-        </div>
-      )}
+
+      {replies.map((reply) => {
+        return (
+          <div key={reply.id} className="mt-2">
+            <CommentDisplay {...reply} />;
+          </div>
+        );
+      })}
     </div>
   );
 }

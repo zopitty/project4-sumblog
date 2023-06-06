@@ -28,6 +28,7 @@ export async function GET(
   });
   // revalidateTag(tag as any);
   // { revalidated: true, now: Date.now() }
+  console.log("SERVER GET:", commentId);
   return NextResponse.json(data);
 }
 
@@ -42,6 +43,6 @@ export async function DELETE(
   });
   const path = req.nextUrl.pathname;
   revalidatePath(path);
-  // console.log(new Date());
+  console.log("SERVER DEL:", commentId);
   return NextResponse.json(deleted);
 }

@@ -32,6 +32,7 @@ export default function PostDisplay({
       },
     });
     if (res.status === 200) {
+      console.log("POST DEL:", id);
       router.refresh();
     } else {
       console.log(res);
