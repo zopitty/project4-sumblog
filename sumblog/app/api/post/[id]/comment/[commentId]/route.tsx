@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 interface Props {
@@ -7,7 +7,11 @@ interface Props {
 }
 
 // { params: { id: string; commentId: string } }
-export async function GET(req: Request, { params: { id, commentId } }: Props) {
+export async function GET(
+  req: NextRequest,
+  { params: { id, commentId } }: Props
+) {
+  // const tag = req.nextUrl.searchParams.get("tag");
   const data = await prisma.comment.findMany({
     where: {
       parentId: Number(commentId),
@@ -22,6 +26,8 @@ export async function GET(req: Request, { params: { id, commentId } }: Props) {
     },
     orderBy: { createdAt: "desc" },
   });
+  // revalidateTag(tag as any);
+  // { revalidated: true, now: Date.now() }
   return NextResponse.json(data);
 }
 
@@ -36,5 +42,6 @@ export async function DELETE(
   });
   const path = req.nextUrl.pathname;
   revalidatePath(path);
+  // console.log(new Date());
   return NextResponse.json(deleted);
 }

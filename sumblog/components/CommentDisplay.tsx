@@ -1,5 +1,6 @@
 "use client";
 
+import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -32,10 +33,14 @@ export default function CommentDisplay({
   });
 
   const newDate = f.format(new Date(createdAt));
+
   const getReplies = async () => {
-    const res = await fetch(`/api/post/${postId}/comment/${id}`);
+    const res = await fetch(`/api/post/${postId}/comment/${id}`, {
+      cache: "no-store",
+    });
     const data = await res.json();
     setReplies(data);
+    console.log(replies);
   };
 
   const postReply = async (e: React.FormEvent) => {
@@ -48,7 +53,7 @@ export default function CommentDisplay({
     if (res.status === 200) {
       setSubComment("");
       setIsReplying(false);
-      router.refresh();
+      // router.refresh();
       getReplies();
     } else {
       console.log(res);
@@ -61,11 +66,9 @@ export default function CommentDisplay({
       headers: { "Content-Type": "application/json" },
     });
     if (res.status === 200) {
-      alert("deleted");
-      router.refresh();
       getReplies();
-
-
+      router.refresh();
+      // alert("deleted");
     } else {
       console.log(res);
       alert("error");
@@ -81,8 +84,13 @@ export default function CommentDisplay({
       <span>
         {author.name} @ {newDate}
       </span>
+      <button
+        onClick={() => deleteComment(id)}
+        className="w-28 rounded-full border-[1px] border-zinc-400"
+      >
+        DELETE
+      </button>
       <span>{comment}</span>
-      <button onClick={() => deleteComment(id)}>DELETE</button>
       {isReplying ? (
         <button
           onClick={() => setIsReplying(false)}
