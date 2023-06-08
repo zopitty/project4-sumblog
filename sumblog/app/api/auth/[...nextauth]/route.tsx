@@ -57,6 +57,7 @@ export const authOptions: NextAuthOptions = {
           id: user.id + "", //making it a string type kek
           email: user.email,
           name: user.name,
+          role: user.role,
         };
       },
     }),

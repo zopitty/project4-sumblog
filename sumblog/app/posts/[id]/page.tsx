@@ -3,6 +3,7 @@ import CommentDisplay from "@/components/CommentDisplay";
 import CommentField from "@/components/CommentField";
 import LikeServer from "@/components/LikeServer";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 
 interface Props {
   params: {
@@ -21,7 +22,6 @@ export default async function IndividualPostDisplay({ params }: Props) {
   });
   // @ts-expect-error
   const dateString = new Date(postInfo?.createdAt.toString());
-
   const newDate = f.format(dateString);
 
   const comments = await prisma.comment.findMany({
@@ -47,7 +47,9 @@ export default async function IndividualPostDisplay({ params }: Props) {
     <div className="flex h-screen w-screen flex-col gap-3 p-6">
       <div className="flex items-center px-4 py-2">
         <span className="order-0 mr-2 flex w-20 flex-none flex-grow-0 flex-row justify-center rounded-md bg-purple-400 p-0 text-gray-200">
-          {postInfo?.author.name}
+          <Link href={`/users/${postInfo?.author.id}`}>
+            {postInfo?.author.name}
+          </Link>
         </span>
         <span className="font-roboto order-1 ml-2 h-5 w-screen flex-none flex-grow text-xs font-normal leading-5 text-black">
           {newDate}
