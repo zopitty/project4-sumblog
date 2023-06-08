@@ -18,8 +18,7 @@ export default async function IndividualPostDisplay({ params }: Props) {
     where: { id: Number(params.id) },
     include: { author: true },
   });
-  // const res = await fetch(`/api/post/${params.id}/comment`);
-  // const comments: Comment[] = await res.json();
+
   const comments = await prisma.comment.findMany({
     where: {
       postId: Number(params.id),
@@ -34,7 +33,6 @@ export default async function IndividualPostDisplay({ params }: Props) {
     },
     orderBy: { createdAt: "desc" },
   });
-  // console.log(comments[0]);
 
   return (
     <div className="flex h-screen w-screen flex-col gap-3 p-6">

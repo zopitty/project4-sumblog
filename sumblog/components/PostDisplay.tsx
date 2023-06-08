@@ -4,13 +4,14 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import AuthCheck from "./AuthCheck";
+import { useSession } from "next-auth/react";
 
 interface Props {
   id: number;
   title: string | null;
   content: string | null;
   createdAt: Date;
-  author: { name: string | null };
+  author: { name: string | null; id: string };
 }
 
 export default function PostDisplay({
@@ -24,6 +25,12 @@ export default function PostDisplay({
   const [newPost, setNewPost] = useState("");
   const [likes, setLikes] = useState(0);
   const router = useRouter();
+  const { data: session } = useSession();
+
+  // callback from next-auth puts in the id & role
+
+  console.log(session);
+  // console.log("YOUR ROLE", session?.user?.role);
   const deletePost = async (id: number) => {
     const res = await fetch(`/api/post/${id}`, {
       method: "DELETE",
@@ -32,7 +39,6 @@ export default function PostDisplay({
       },
     });
     if (res.status === 200) {
-      console.log("POST DEL:", id);
       router.refresh();
     } else {
       alert("You are not authorized");
@@ -40,6 +46,7 @@ export default function PostDisplay({
   };
 
   const updatePost = async (e: React.FormEvent) => {
+    e.preventDefault();
     const res = await fetch(`/api/post/${id}`, {
       method: "PATCH",
       headers: {
@@ -47,6 +54,13 @@ export default function PostDisplay({
       },
       body: JSON.stringify({ content: newPost }),
     });
+    if (res.status === 200) {
+      setIsUpdating(false);
+      setNewPost("");
+      router.refresh();
+    } else {
+      alert("You are not authorized");
+    }
   };
 
   const getLikesCount = async (id: number) => {
@@ -55,6 +69,7 @@ export default function PostDisplay({
     console.log(data);
     setLikes(Number(data));
   };
+
   useEffect(() => {
     getLikesCount(id);
   }, []);
@@ -67,54 +82,76 @@ export default function PostDisplay({
   const newDate = f.format(new Date(createdAt));
 
   return (
-    <div className="px-12 py-3">
+    <div className="px-12 py-4">
       <div className="w-full rounded-lg border border-gray-200 bg-gray-200 shadow-md">
-        <ul className="bg-gray-150 flex flex-wrap rounded-t-lg border-b border-gray-300 text-center text-sm font-medium text-gray-500">
-          <li className="mr-2">
+        <div className="bg-gray-150 flex flex-wrap rounded-t-lg border-b border-gray-300 text-center text-sm font-medium text-gray-500">
+          <div className="mr-2">
             <div className="flex items-center px-4 py-2">
               <span className="order-0 mr-2 flex h-7 w-20 flex-none flex-grow-0 flex-row justify-center rounded-md bg-purple-400 p-1 text-gray-200">
-                {author["name"]}
+                <Link href={`/users/${author.id}`}>{author["name"]}</Link>
               </span>
               <span className="w-1119 font-roboto order-1 h-5 flex-none flex-grow text-xs font-normal leading-5 text-black">
                 {newDate}
               </span>
             </div>
-          </li>
+          </div>
+          {/* prettier-ignore */}
           <AuthCheck>
-            <button onClick={() => deletePost(id)}>DELETE</button>
-            {isUpdating ? (
-              <button onClick={() => setIsUpdating(false)} className="ml-1">
-                Cancel
-              </button>
-            ) : (
-              <button onClick={() => setIsUpdating(true)} className="ml-1">
-                UPDATE
-              </button>
-            )}
-            {isUpdating && (
-              <form onSubmit={updatePost}>
-                <input
-                  autoFocus
-                  type="text"
-                  value={newPost}
-                  onChange={(e) => setNewPost(e.target.value)}
-                  placeholder="What are your thoughts"
-                  className="w-1/2 border-[1px] border-zinc-400 p-4"
-                />
-                <button className="ml-1 w-28 rounded-full border-[1px] border-zinc-400">
-                  Update
-                </button>
-              </form>
+            {/* @ts-expect-error */}
+            {(author.id === session?.user?.id || session?.user?.role === "admin") && (
+              <div className="absolute right-20 flex pt-3">
+                <button onClick={() => deletePost(id)}>DELETE</button>
+              </div>
             )}
           </AuthCheck>
-        </ul>
+        </div>
 
-        <div className="rounded-lg bg-gray-200 px-5 py-2">
-          <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-gray-900">
+        <div className="flex flex-col rounded-lg bg-gray-200 px-5 py-2">
+          <div className="mb-3 text-3xl font-extrabold tracking-tight text-gray-900">
             {title}
-          </h2>
-          <p className="mb-3 text-gray-500 dark:text-gray-400">{content}</p>
+          </div>
+          <div className="mb-3 text-gray-500 dark:text-gray-400">
+            {content}
+            {/* prettier-ignore */}
 
+            <AuthCheck>
+              {/* @ts-expect-error */}
+              {(author.id === session?.user?.id || session?.user?.role === "admin") && (
+                <div className="flex-none text-xs">
+                  {isUpdating ? (
+                    <button
+                      onClick={() => setIsUpdating(false)}
+                      className="ml-1"
+                    >
+                      Cancel
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => setIsUpdating(true)}
+                      className=" text-black"
+                    >
+                      (click HERE to update)
+                    </button>
+                  )}
+                  {isUpdating && (
+                    <form onSubmit={updatePost}>
+                      <input
+                        autoFocus
+                        type="text"
+                        value={newPost}
+                        onChange={(e) => setNewPost(e.target.value)}
+                        placeholder="What are your thoughts"
+                        className="w-1/2 border-[1px] border-zinc-400 p-4"
+                      />
+                      <button className="ml-1 w-28 rounded-full border-[1px] border-zinc-400">
+                        Update
+                      </button>
+                    </form>
+                  )}
+                </div>
+              )}
+            </AuthCheck>
+          </div>
           <Link
             href={`/posts/${id}`}
             className="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700"
@@ -130,7 +167,12 @@ export default function PostDisplay({
           </Link>
           <div className="flex items-center">
             <div className="px-1 py-4">
-              <Image src="/heart.svg" alt="likes:" width={15} height={15} />
+              <Image
+                src="/filledHeart.svg"
+                alt="likes:"
+                width={15}
+                height={15}
+              />
             </div>
             <span className="font-roboto order-1 flex-none flex-grow-0 text-xs font-normal text-black">
               {likes}

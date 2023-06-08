@@ -19,22 +19,17 @@ export default function NavBar() {
             </AuthCheck>
           </div>
         </div>
-        <div
-          className="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto"
-          id="navbar-sticky"
-        >
-          <ul className="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-200 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0">
-            <li className=" font-circular order-1 flex-none flex-grow-0 text-sm font-medium text-black">
-              <Link href="/about">About</Link>
-            </li>
-            <li className=" font-circular  order-1 flex-none flex-grow-0 text-sm font-medium text-black">
-              <Link href="/stalker">Your Feed</Link>
-            </li>
-            <li className=" font-circular order-1 flex-none flex-grow-0 text-sm font-medium text-black">
-              <Link href="/users">Users</Link>
-            </li>
-          </ul>
-        </div>
+        <ul className="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-200 p-4 font-medium md:mt-0 md:flex-row md:space-x-8 md:border-0 md:p-0">
+          <li className=" font-circular order-1 flex-none flex-grow-0 text-sm font-medium text-black">
+            <Link href="/about">About</Link>
+          </li>
+          <li className=" font-circular  order-1 flex-none flex-grow-0 text-sm font-medium text-black">
+            <Link href="/stalker">Your Feed</Link>
+          </li>
+          <li className=" font-circular order-1 flex-none flex-grow-0 text-sm font-medium text-black">
+            <Link href="/users">Users</Link>
+          </li>
+        </ul>
       </div>
     </nav>
   );

@@ -72,6 +72,7 @@ export const authOptions: NextAuthOptions = {
         user: {
           ...session.user,
           id: token.id,
+          role: token.role,
         },
       };
     },
@@ -82,6 +83,8 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: user.id,
+          // @ts-expect-error
+          role: user.role,
         };
       }
       return token;

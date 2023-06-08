@@ -15,4 +15,4 @@ export default function AuthCheck({ children }: { children: React.ReactNode }) {
   }
 }
 
-// this is how it's done client side
+// client side protection

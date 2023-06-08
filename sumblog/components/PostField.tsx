@@ -31,10 +31,10 @@ export default function PostField() {
     }
   };
   return (
-    <div className="w-1300 h-387 order-0 pt-13 flex flex-none flex-grow-0 flex-col items-center gap-16 rounded-lg bg-gray-200 px-12">
+    <div className="w-1300 h-387 order-0 pt-13 flex flex-none flex-grow-0 flex-col items-center gap-16 rounded-lg bg-gray-200 px-12 pb-2">
       <form
         onSubmit={postData}
-        className="w-1216 h-291 order-0 flex flex-none flex-grow-0 flex-col items-start gap-2 self-stretch rounded-xl p-10 shadow-lg"
+        className="w-1216 h-291 order-0 flex flex-none flex-grow-0 flex-col items-start gap-2 self-stretch rounded-xl p-10 shadow-md"
       >
         <div className="w-1216 order-1 flex h-7 flex-none flex-grow-0 flex-row items-start gap-2 p-0">
           <span className="w-141 font-circular order-0 h-7 flex-none flex-grow-0 font-medium text-black">
@@ -64,7 +64,7 @@ export default function PostField() {
         {fetching ? (
           <button
             disabled
-            className="w-91 w-51 font-circular order-0 order-3 mt-1 flex h-6 flex-none flex-grow-0 flex-row items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-600 p-2 text-base font-medium leading-6 text-white"
+            className="w-91 w-51 font-circular order-0 order-3 mt-1 flex h-6 flex-none flex-grow-0 flex-row items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-600 p-2 text-lg font-medium leading-6 text-white"
           >
             wait.
           </button>

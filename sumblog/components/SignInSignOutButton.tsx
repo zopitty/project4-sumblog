@@ -10,7 +10,7 @@ export function SignInButton() {
   // console.log(session, status);
   if (status === "loading") {
     return (
-      <div className="font-circular order-0 w-25 flex-none flex-grow-0 text-sm font-medium text-black">
+      <div className="font-circular order-0 w-25 flex-none flex-grow-0 px-10 text-sm font-medium text-black">
         ...
       </div>
     );
@@ -22,8 +22,8 @@ export function SignInButton() {
       <Link href={`/dashboard`}>
         <Image
           src={session.user?.image ?? "/default-profile-icon-24.jpg"}
-          width={28}
-          height={28}
+          width={20}
+          height={20}
           alt="Your Name"
           className="mr-2 rounded-lg"
         />
@@ -31,7 +31,7 @@ export function SignInButton() {
     );
   }
   return (
-    <div className="font-circular order-0  w-25 flex-none flex-grow-0 text-sm font-medium text-black">
+    <div className="font-circular order-0 w-25 flex-none flex-grow-0 text-sm font-medium text-black">
       <button onClick={() => signIn()}>Log in/ </button>
       <Link href="/register">Register</Link>
     </div>
@@ -42,7 +42,7 @@ export function SignOutButton() {
   return (
     <button
       onClick={() => signOut()}
-      className="font-circular order-0 w-25 flex-none flex-grow-0 text-sm font-medium text-black"
+      className="font-circular order-0 w-25 flex-none flex-grow-0 pr-1 text-sm font-medium text-black"
     >
       / Log out
     </button>

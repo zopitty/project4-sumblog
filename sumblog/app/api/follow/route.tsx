@@ -7,16 +7,15 @@ import { authOptions } from "../auth/[...nextauth]/route";
 export async function PUT(req: Request) {
   // access user
   const session = await getServerSession(authOptions);
-  const currentUserEmail = session?.user?.email!;
+  // const currentUserEmail = session?.user?.email!;
   const { targetId } = await req.json();
 
   // NOTE!!!: session doesn't contain ID :(
   // ONLY contains name, email, image
+  // --> ADDED IN VIA NEXTAUTH CALLBACK KEK
 
-  const user = await prisma.user.findUnique({
-    where: { email: currentUserEmail },
-  });
-  const currentUserId = user?.id!;
+  // @ts-expect-error
+  const currentUserId = session?.user?.id!;
   // (end) access user
 
   const registerFollow = await prisma.follows.create({
