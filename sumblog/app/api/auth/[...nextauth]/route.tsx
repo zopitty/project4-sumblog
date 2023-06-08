@@ -77,11 +77,9 @@ export const authOptions: NextAuthOptions = {
       };
     },
     //creation and management of jwt
-    // jwt return NO USER(?) user - only the first time user logs in
     jwt: async ({ token, user }) => {
-      // console.log("JWT callback: ", { token, user });
+      console.log("JWT callback: ", { token, user });
       if (user) {
-        // const u = user as unknown as User;
         return {
           ...token,
           id: user.id,
@@ -92,7 +90,7 @@ export const authOptions: NextAuthOptions = {
   },
 };
 // THE FLOW: JWT callback first, user: defined then session
-//if we want to pass info, after authorised > user > JWT > session
+//if we want to pass info, after authorised > user info > JWT > session
 
 // any GET or POST request will be handled by nextauth
 const handler = NextAuth(authOptions);

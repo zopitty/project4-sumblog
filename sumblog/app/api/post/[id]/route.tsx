@@ -11,31 +11,11 @@ export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  const id = params.id;
-  const data = await req.json();
-  // data.xxx = Number(data.xxx), if database expecting number, ie want to patch number
-  // console.log(data);
-  const user = await prisma.post.update({
-    where: {
-      id: Number(id),
-    },
-    data,
-  });
-  // by default, when you do this prisma will patch instead of doing PUT
-  // set data to null if you don't want
-  // eg. data: {name: data.name || null}
-  // reminder: need to ensure the fields are required in the input
-  return NextResponse.json(user);
-}
-
-//Delete Post
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return;
+    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+    });
   }
   const currentUserEmail = session?.user?.email!;
   const user = await prisma.user.findUnique({
@@ -45,7 +25,52 @@ export async function DELETE(
   });
   const currentUserId = user?.id!;
   const currentUserRole = user?.role;
-  const post = await prisma.post.findUnique({
+  const post = await prisma.post.findFirst({
+    where: { id: Number(params.id) },
+    select: { userId: true },
+  });
+  const data = await req.json();
+  // data.xxx = Number(data.xxx), if database expecting number, ie want to patch number
+  // console.log(data);
+  if (currentUserId === post?.userId || currentUserRole === "admin") {
+    const updated = await prisma.post.update({
+      where: {
+        id: Number(params.id),
+      },
+      data,
+    });
+    // by default, when you do this prisma will patch instead of doing PUT
+    // set data to null if you don't want
+    // eg. data: {name: data.name || null}
+    // reminder: need to ensure the fields are required in the input
+    return NextResponse.json(updated);
+  } else {
+    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+    });
+  }
+}
+
+//Delete Post
+export async function DELETE(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+    });
+  }
+  const currentUserEmail = session?.user?.email!;
+  const user = await prisma.user.findUnique({
+    where: {
+      email: currentUserEmail,
+    },
+  });
+  const currentUserId = user?.id!;
+  const currentUserRole = user?.role;
+  const post = await prisma.post.findFirst({
     where: { id: Number(params.id) },
     select: { userId: true },
   });
@@ -55,7 +80,10 @@ export async function DELETE(
         id: Number(params.id),
       },
     });
-
     return NextResponse.json(deleted);
+  } else {
+    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+    });
   }
 }

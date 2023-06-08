@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import LikeServer from "./LikeServer";
 import Image from "next/image";
+import AuthCheck from "./AuthCheck";
 
 interface Props {
   id: number;
@@ -37,8 +38,7 @@ export default function PostDisplay({
       console.log("POST DEL:", id);
       router.refresh();
     } else {
-      console.log(res);
-      alert("error");
+      alert("You are not authorized");
     }
   };
 
@@ -84,32 +84,33 @@ export default function PostDisplay({
               </span>
             </div>
           </li>
-
-          <button onClick={() => deletePost(id)}>DELETE</button>
-          {isUpdating ? (
-            <button onClick={() => setIsUpdating(false)} className="ml-1">
-              Cancel
-            </button>
-          ) : (
-            <button onClick={() => setIsUpdating(true)} className="ml-1">
-              UPDATE
-            </button>
-          )}
-          {isUpdating && (
-            <form onSubmit={updatePost}>
-              <input
-                autoFocus
-                type="text"
-                value={newPost}
-                onChange={(e) => setNewPost(e.target.value)}
-                placeholder="What are your thoughts"
-                className="w-1/2 border-[1px] border-zinc-400 p-4"
-              />
-              <button className="ml-1 w-28 rounded-full border-[1px] border-zinc-400">
-                Update
+          <AuthCheck>
+            <button onClick={() => deletePost(id)}>DELETE</button>
+            {isUpdating ? (
+              <button onClick={() => setIsUpdating(false)} className="ml-1">
+                Cancel
               </button>
-            </form>
-          )}
+            ) : (
+              <button onClick={() => setIsUpdating(true)} className="ml-1">
+                UPDATE
+              </button>
+            )}
+            {isUpdating && (
+              <form onSubmit={updatePost}>
+                <input
+                  autoFocus
+                  type="text"
+                  value={newPost}
+                  onChange={(e) => setNewPost(e.target.value)}
+                  placeholder="What are your thoughts"
+                  className="w-1/2 border-[1px] border-zinc-400 p-4"
+                />
+                <button className="ml-1 w-28 rounded-full border-[1px] border-zinc-400">
+                  Update
+                </button>
+              </form>
+            )}
+          </AuthCheck>
         </ul>
 
         <div className="rounded-lg bg-gray-200 p-4 md:p-8">

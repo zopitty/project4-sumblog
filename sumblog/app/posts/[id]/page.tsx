@@ -14,7 +14,7 @@ interface Comment {
   createdAt: Date;
 }
 export default async function IndividualPostDisplay({ params }: Props) {
-  const postInfo = await prisma.post.findUnique({
+  const postInfo = await prisma.post.findFirst({
     where: { id: Number(params.id) },
     include: { author: true },
   });
