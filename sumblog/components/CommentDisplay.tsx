@@ -10,7 +10,7 @@ interface Props {
   id: number;
   comment: string | null;
   createdAt: Date;
-  author: { name: string | null };
+  author: { name: string | null; id: string };
   postId: number;
   parentId: number | null;
   onChildDelete?: () => Promise<void> | null;
@@ -31,13 +31,14 @@ export default function CommentDisplay({
   const [replies, setReplies] = useState<Props[]>([]);
   // callback from next-auth puts in the id & role
   const { data: session } = useSession();
+  // @ts-expect-error
+  console.log(session?.user?.id);
 
   const f = new Intl.DateTimeFormat("en-GB", {
     dateStyle: "long",
     timeStyle: "short",
     timeZone: "Singapore",
   });
-
   const newDate = f.format(new Date(createdAt));
 
   const getReplies = async () => {
@@ -102,13 +103,17 @@ export default function CommentDisplay({
           <span className="font-roboto h-5 text-xs font-normal leading-5 text-black">
             {newDate}
           </span>
+          {/* prettier-ignore */}
           <AuthCheck>
-            <button
-              onClick={() => deleteComment(id)}
-              className="ml-2 w-20 rounded-full border-[1px] border-purple-400 text-xs"
-            >
-              DELETE
-            </button>
+            {/* @ts-expect-error */}
+            {(author.id === session?.user?.id || session?.user?.role === "admin") && (
+                <button
+                  onClick={() => deleteComment(id)}
+                  className="ml-2 w-20 rounded-full border-[1px] border-purple-400 text-xs"
+                >
+                  DELETE
+                </button>
+              )}
           </AuthCheck>
         </div>
       </span>

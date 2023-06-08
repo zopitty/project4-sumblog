@@ -1,6 +1,9 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import FollowServer from "@/components/FollowServer";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
 interface Props {
   params: {
@@ -11,6 +14,10 @@ interface Props {
 export default async function UserProfile({ params }: Props) {
   const user = await prisma.user.findUnique({ where: { id: params.id } });
   const { name, bio, image, age } = user ?? {};
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    redirect("/register");
+  }
 
   return (
     <div className="flex w-screen items-center justify-center">

@@ -9,11 +9,6 @@ interface Props {
     id: number;
   };
 }
-interface Comment {
-  comment: string;
-  id: number;
-  createdAt: Date;
-}
 export default async function IndividualPostDisplay({ params }: Props) {
   const postInfo = await prisma.post.findFirst({
     where: { id: Number(params.id) },
@@ -38,6 +33,7 @@ export default async function IndividualPostDisplay({ params }: Props) {
       author: {
         select: {
           name: true,
+          id: true,
         },
       },
     },
