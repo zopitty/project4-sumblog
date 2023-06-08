@@ -63,7 +63,6 @@ export default function PostDisplay({
   const getLikesCount = async (id: number) => {
     const res = await fetch(`/api/post/${id}/likes`);
     const data = await res.json();
-    console.log(data);
     setLikes(Number(data));
   };
 

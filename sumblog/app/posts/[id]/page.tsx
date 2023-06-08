@@ -39,6 +39,9 @@ export default async function IndividualPostDisplay({ params }: Props) {
     },
     orderBy: { createdAt: "desc" },
   });
+  const likeCount = await prisma.likes.count({
+    where: { postId: Number(params.id) },
+  });
 
   return (
     <div className="flex h-screen w-screen flex-col gap-3 p-6">
@@ -55,10 +58,11 @@ export default async function IndividualPostDisplay({ params }: Props) {
         {postInfo?.title}
       </div>
       <div className="px-6 font-light">{postInfo?.content}</div>
-      <div className="flext flex-start pl-6">
+      <div className="flex-start flex gap-1 pl-6 text-xs">
         {/* Server Component */}
         {/* @ts-expect-error */}
         <LikeServer targetId={params.id} />
+        {likeCount}
       </div>
       <div className="rounded-xl px-6 py-5 shadow-md">
         <div className="font-circular text-md font-bold">Comments</div>

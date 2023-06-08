@@ -59,7 +59,7 @@ export async function DELETE(
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
+    return new NextResponse(JSON.stringify({ error: "no session" }), {
       status: 401,
     });
   }
@@ -75,7 +75,7 @@ export async function DELETE(
     where: { id: Number(params.id) },
     select: { userId: true },
   });
-  // ensure only user that commented or admin can delete
+  // ensure only user that posted or admin can delete
   if (currentUserId === post?.userId || currentUserRole === "admin") {
     const deleted = await prisma.post.delete({
       where: {

@@ -1,7 +1,7 @@
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 interface Props {
@@ -36,12 +36,12 @@ export async function GET(
 
 //delete comment
 export async function DELETE(
-  req: NextRequest,
+  req: Request,
   { params: { id, commentId } }: Props
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
-    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
+    return new NextResponse(JSON.stringify({ error: "no session" }), {
       status: 401,
     });
   }
@@ -51,24 +51,24 @@ export async function DELETE(
       email: currentUserEmail,
     },
   });
-  const currentUserId = user?.id!;
+  const currentUserId = user?.id;
+  console.log(user?.id);
   const currentUserRole = user?.role;
+  console.log(currentUserId);
   const comment = await prisma.comment.findFirst({
     where: { id: Number(id) },
     select: { userId: true },
   });
   // ensure only user that commented or admin can delete
-  if (currentUserId === comment?.userId || currentUserRole === "admin") {
+  if (currentUserId === comment?.userId) {
     const deleted = await prisma.comment.delete({
       where: {
         id: Number(commentId),
       },
     });
-    const path = req.nextUrl.pathname;
-    revalidatePath(path);
     return NextResponse.json(deleted);
   } else {
-    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
+    return new NextResponse(JSON.stringify({ error: "not unauthorized" }), {
       status: 401,
     });
   }

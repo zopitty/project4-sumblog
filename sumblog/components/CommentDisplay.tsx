@@ -42,12 +42,9 @@ export default function CommentDisplay({
   const newDate = f.format(new Date(createdAt));
 
   const getReplies = async () => {
-    const res = await fetch(`/api/post/${postId}/comment/${id}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(`/api/post/${postId}/comment/${id}`);
     const data = await res.json();
     setReplies(data);
-    console.log("GETTING ID: ", id);
   };
 
   const postReply = async (e: React.FormEvent) => {
@@ -68,6 +65,7 @@ export default function CommentDisplay({
     }
   };
   const deleteComment = async (id: number) => {
+    console.log(postId, id);
     const res = await fetch(`/api/post/${postId}/comment/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
@@ -77,8 +75,6 @@ export default function CommentDisplay({
       setReplies((prevComments) => {
         return prevComments.filter((comment) => comment.id !== id);
       });
-      console.log("DELETE ID: ", id);
-      console.log(replies);
       router.refresh();
       if (onChildDelete) {
         onChildDelete();

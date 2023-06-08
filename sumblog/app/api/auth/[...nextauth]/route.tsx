@@ -37,7 +37,7 @@ export const authOptions: NextAuthOptions = {
           //lets authjs know it's wrong
           return null;
         }
-        const user = await prisma.user.findUnique({
+        const user = await prisma.user.findFirst({
           where: {
             email: credentials.email,
           },
