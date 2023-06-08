@@ -75,8 +75,13 @@ export default function PostDisplay({
       <div className="w-full rounded-lg border border-gray-200 bg-gray-200 shadow-md">
         <ul className="bg-gray-150 flex flex-wrap rounded-t-lg border-b border-gray-300 text-center text-sm font-medium text-gray-500">
           <li className="mr-2">
-            <div className="inline-block p-4">
-              {author["name"]} @ {newDate}
+            <div className="flex items-center px-4 py-2">
+              <span className="order-0 mr-2 flex h-7 w-20 flex-none flex-grow-0 flex-row justify-center rounded-md bg-purple-400 p-1 text-gray-200">
+                {author["name"]}
+              </span>
+              <span className="w-1119 font-roboto order-1 h-5 flex-none flex-grow text-xs font-normal leading-5 text-black">
+                {newDate}
+              </span>
             </div>
           </li>
 

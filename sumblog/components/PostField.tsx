@@ -71,7 +71,7 @@ export default function PostField() {
             wait.
           </button>
         ) : (
-          <button className="w-91 w-51 font-circular order-0 order-3 mt-1 flex h-6 flex-none flex-grow-0 flex-row items-center justify-center gap-2 rounded-lg border border-black bg-black p-2 text-base font-medium leading-6 text-white">
+          <button className="w-91 w-51 font-circular order-0 order-3 mt-1 flex h-6 flex-none flex-grow-0 flex-row items-center justify-center gap-2 rounded-lg border border-black bg-black p-3 text-xs font-medium leading-6 text-white">
             Post it!
           </button>
         )}

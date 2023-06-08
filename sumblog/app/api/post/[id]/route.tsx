@@ -1,5 +1,8 @@
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { authOptions } from "../../auth/[...nextauth]/route";
+import { redirect } from "next/navigation";
 
 // updating posts (by user ID/Post id)
 // note: usually PUT is to replace the whole thing
@@ -25,15 +28,34 @@ export async function PATCH(
   return NextResponse.json(user);
 }
 
+//Delete Post
 export async function DELETE(
   req: Request,
   { params }: { params: { id: string } }
 ) {
-  const id = params.id;
-  const deleted = await prisma.post.delete({
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return;
+  }
+  const currentUserEmail = session?.user?.email!;
+  const user = await prisma.user.findUnique({
     where: {
-      id: Number(id),
+      email: currentUserEmail,
     },
   });
-  return NextResponse.json(deleted);
+  const currentUserId = user?.id!;
+  const currentUserRole = user?.role;
+  const post = await prisma.post.findUnique({
+    where: { id: Number(params.id) },
+    select: { userId: true },
+  });
+  if (currentUserId === post?.userId || currentUserRole === "admin") {
+    const deleted = await prisma.post.delete({
+      where: {
+        id: Number(params.id),
+      },
+    });
+
+    return NextResponse.json(deleted);
+  }
 }

@@ -1,6 +1,6 @@
-
 import Image from "next/image";
 import Link from "next/link";
+import FollowServer from "./FollowServer";
 
 interface Props {
   id: string;
@@ -11,18 +11,6 @@ interface Props {
 
 export default function UserCard({ id, name, image, bio }: Props) {
   return (
-    // <div className="grid h-52 w-52 grid-cols-1 justify-items-center gap-0 border-solid border-black">
-    //   <img
-    //     className="h-32 w-32"
-    //     src={image ?? "../public/default-profile-icon-24.jpg"}
-    //     alt={`${name}'s profile`}
-    //   />
-    //   <div>
-    //     <Link href={`/users/${id}`}>
-    //       <p>{name}</p>
-    //     </Link>
-    //   </div>
-    // </div>
     <div className="w-full max-w-xs rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <div className="flex flex-col items-center p-10">
         <Image
@@ -43,6 +31,8 @@ export default function UserCard({ id, name, image, bio }: Props) {
           >
             View Profile
           </Link>
+          {/* @ts-expect-error */}
+          <FollowServer targetId={id} />
         </div>
       </div>
     </div>

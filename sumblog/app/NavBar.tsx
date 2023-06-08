@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function NavBar() {
   return (
-    <nav className="left-0 top-0 z-20 w-full border-b border-gray-200 bg-gray-200">
+    <nav className="left-0 top-0 z-20 mb-4 w-full border-b border-gray-200 bg-gray-200 shadow-sm">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
         <Link href="/">
           <span className="w-111 h-42 font-circular leading-150 order-0 flex-none flex-grow-0 text-base font-medium text-black">
