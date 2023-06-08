@@ -12,6 +12,7 @@ interface Props {
   userId: string;
   postId: number;
   parentId: number | null;
+  onChildDelete?: () => Promise<void> | null;
 }
 
 export default function CommentDisplay({
@@ -22,6 +23,7 @@ export default function CommentDisplay({
   userId,
   parentId,
   postId,
+  onChildDelete,
 }: Props) {
   const [subComment, setSubComment] = useState("");
   const [isReplying, setIsReplying] = useState(false);
@@ -80,22 +82,12 @@ export default function CommentDisplay({
       setReplies((prevComments) => {
         return prevComments.filter((comment) => comment.id !== id);
       });
-
-      // const res = await fetch(`/api/post/${postId}/comment/${id}`, {
-      //   cache: "no-store",
-      // });
-      // const data = await res.json();
-      if (parentId) {
-        window.location.reload();
-      }
-      setReplies([]);
-      // setReplies((prevComments) =>
-      //   prevComments.filter((comment) => comment.id !== id)
-      // );
-      getParentReplies();
       console.log("DELETE ID: ", id);
       console.log(replies);
       router.refresh();
+      if (onChildDelete) {
+        onChildDelete();
+      }
     } else {
       console.log(res);
       alert("error");
@@ -153,7 +145,7 @@ export default function CommentDisplay({
       {replies.map((reply) => {
         return (
           <div key={reply.id} className="mt-2">
-            <CommentDisplay {...reply} />
+            <CommentDisplay {...reply} onChildDelete={getReplies} />
           </div>
         );
       })}
