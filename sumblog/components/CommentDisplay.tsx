@@ -9,7 +9,6 @@ interface Props {
   comment: string | null;
   createdAt: Date;
   author: { name: string | null };
-  userId: string;
   postId: number;
   parentId: number | null;
   onChildDelete?: () => Promise<void> | null;
@@ -20,7 +19,6 @@ export default function CommentDisplay({
   comment,
   author,
   createdAt,
-  userId,
   parentId,
   postId,
   onChildDelete,
@@ -104,7 +102,7 @@ export default function CommentDisplay({
         {author.name} @ {newDate}{" "}
         <button
           onClick={() => deleteComment(id)}
-          className="w-28 rounded-full border-[1px] border-zinc-400"
+          className="w-28 rounded-full border-[1px] border-purple-400"
         >
           DELETE
         </button>
@@ -114,16 +112,16 @@ export default function CommentDisplay({
       {isReplying ? (
         <button
           onClick={() => setIsReplying(false)}
-          className="w-28 rounded-full border-[1px] border-zinc-400"
+          className="w-28 rounded-full border-[1px] border-purple-400"
         >
           cancel
         </button>
       ) : (
         <button
           onClick={() => setIsReplying(true)}
-          className="w-28 rounded-full border-[1px] border-zinc-400"
+          className="w-28 rounded-full border-[1px] border-purple-400"
         >
-          reply
+          Reply
         </button>
       )}
       {isReplying && (

@@ -25,7 +25,9 @@ export default async function UserProfile({ params }: Props) {
         <div className="flex-none py-3 text-center text-lg font-medium text-black">
           {name}, {age}
         </div>
-        <div className="ml-1 justify-center py-1 text-justify">{bio}</div>
+        <div className="ml-1 justify-center py-1 text-justify font-light">
+          {bio}
+        </div>
         {/* Server Component */}
         <div className="pt-4">
           {/* @ts-expect-error */}

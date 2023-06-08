@@ -28,14 +28,17 @@ export default function CommentField({ postId }: Props) {
     }
   };
   return (
-    <form onSubmit={postComment} className="flex flex-col gap-2">
-      <input
-        type="text"
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-        placeholder="Comments..."
-        className="w-1/2 border-[1px] border-zinc-400 p-4"
-      />
+    <form onSubmit={postComment} className="flex flex-col gap-2 pb-2">
+      <div className="pt-4">
+        <input
+          required
+          type="text"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          placeholder="Write a comment..."
+          className="w-full rounded-lg border-[1px] border-zinc-400 p-4"
+        />
+      </div>
       {sending ? (
         <button
           disabled
@@ -44,7 +47,7 @@ export default function CommentField({ postId }: Props) {
           wait.
         </button>
       ) : (
-        <button className="w-28 rounded-full border-[1px] border-zinc-400">
+        <button className="w-28 rounded-full border-[1px] border-purple-400">
           Comment
         </button>
       )}

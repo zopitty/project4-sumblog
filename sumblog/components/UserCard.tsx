@@ -10,7 +10,7 @@ interface Props {
 
 export default function UserCard({ id, name, image }: Props) {
   return (
-    <div className="w-full max-w-xs rounded-lg border border-gray-200 bg-gray-200 shadow-md">
+    <div className="w-screen max-w-xs rounded-lg border border-gray-200 bg-gray-200 shadow-md">
       <div className="flex flex-col items-center p-10">
         <Image
           className="mb-3 h-24 w-24 rounded-full shadow-lg"

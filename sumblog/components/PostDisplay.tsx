@@ -112,11 +112,10 @@ export default function PostDisplay({
           </div>
           <div className="mb-3 truncate text-gray-500 dark:text-gray-400">
             {content}
-            {/* prettier-ignore */}
 
             <AuthCheck>
               {/* @ts-expect-error */}
-              {(author.id === session?.user?.id || session?.user?.role === "admin") && (
+              {author.id === session?.user?.id && (
                 <div className="flex-none text-xs">
                   {isUpdating ? (
                     <button

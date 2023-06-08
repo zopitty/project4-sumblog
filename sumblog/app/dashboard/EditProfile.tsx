@@ -7,11 +7,11 @@ export default function EditProfile({ user }: any) {
   //initialise data
   const [updateName, setUpdateName] = useState<string>("");
   const [updateBio, setUpdateBio] = useState<string>("");
-  const [updateImage, setUpdateImage] = useState<string>("");
+  const [updateAge, setUpdateAge] = useState<number>();
   useEffect(() => {
     setUpdateName(user?.name ?? "");
     setUpdateBio(user?.bio ?? "");
-    setUpdateImage(user?.image ?? "/default-profile-icon-24.jpg");
+    setUpdateAge(user?.age ?? "");
   }, []);
   const router = useRouter();
 
@@ -22,7 +22,7 @@ export default function EditProfile({ user }: any) {
       body: JSON.stringify({
         name: updateName,
         bio: updateBio,
-        image: updateImage,
+        age: updateAge,
       }),
     });
     await res.json();
@@ -59,9 +59,9 @@ export default function EditProfile({ user }: any) {
         <input
           type="text"
           placeholder="image link"
-          value={updateImage}
+          value={updateAge}
           onChange={(e) => {
-            setUpdateImage(e.target.value);
+            setUpdateAge(Number(e.target.value));
           }}
         />
       </div>
