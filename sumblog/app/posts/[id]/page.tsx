@@ -38,6 +38,7 @@ export default async function IndividualPostDisplay({ params }: Props) {
 
   return (
     <div className="flex h-screen w-screen flex-col gap-3 p-6">
+      {/* Server Component */}
       {/* @ts-expect-error */}
       <LikeServer targetId={params.id} />
       <span className="text-1xl">

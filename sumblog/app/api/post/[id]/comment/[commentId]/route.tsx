@@ -1,4 +1,6 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
+import { getServerSession } from "next-auth";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,12 +8,11 @@ interface Props {
   params: { id: string; commentId: string };
 }
 
-// { params: { id: string; commentId: string } }
+//comments with Parents
 export async function GET(
   req: NextRequest,
   { params: { id, commentId } }: Props
 ) {
-  // const tag = req.nextUrl.searchParams.get("tag");
   const data = await prisma.comment.findMany({
     where: {
       parentId: Number(commentId),
@@ -26,23 +27,49 @@ export async function GET(
     },
     orderBy: { createdAt: "desc" },
   });
-  // revalidateTag(tag as any);
-  // { revalidated: true, now: Date.now() }
-  console.log("SERVER GET:", commentId);
+  const path = req.nextUrl.pathname;
+  revalidatePath(path);
   return NextResponse.json(data);
 }
+//(end) comments with Parents
 
+//delete comment
 export async function DELETE(
   req: NextRequest,
   { params: { id, commentId } }: Props
 ) {
-  const deleted = await prisma.comment.delete({
+  const session = await getServerSession(authOptions);
+  if (!session) {
+    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+    });
+  }
+  const currentUserEmail = session?.user?.email!;
+  const user = await prisma.user.findUnique({
     where: {
-      id: Number(commentId),
+      email: currentUserEmail,
     },
   });
-  const path = req.nextUrl.pathname;
-  revalidatePath(path);
-  console.log("SERVER DEL:", commentId);
-  return NextResponse.json(deleted);
+  const currentUserId = user?.id!;
+  const currentUserRole = user?.role;
+  const comment = await prisma.comment.findFirst({
+    where: { id: Number(id) },
+    select: { userId: true },
+  });
+  // ensure only user that commented or admin can delete
+  if (currentUserId === comment?.userId || currentUserRole === "admin") {
+    const deleted = await prisma.comment.delete({
+      where: {
+        id: Number(commentId),
+      },
+    });
+    const path = req.nextUrl.pathname;
+    revalidatePath(path);
+    return NextResponse.json(deleted);
+  } else {
+    return new NextResponse(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+    });
+  }
 }
+//(end) delete comment

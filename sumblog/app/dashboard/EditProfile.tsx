@@ -1,6 +1,5 @@
 "use client";
 
-// import { revalidatePath } from "next/cache";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -26,8 +25,7 @@ export default function EditProfile({ user }: any) {
         image: updateImage,
       }),
     });
-    const data = await res.json();
-    // revalidatePath(`/users/${data.id}`);
+    await res.json();
     router.refresh();
     alert("updated");
   };

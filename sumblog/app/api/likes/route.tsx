@@ -3,6 +3,7 @@ import { authOptions } from "../auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+// create Likes relation
 export async function PUT(req: Request) {
   const session = await getServerSession(authOptions);
   const currentUserEmail = session?.user?.email!;
@@ -21,7 +22,9 @@ export async function PUT(req: Request) {
   });
   return NextResponse.json(registerLike);
 }
+// (end) create Likes relation
 
+// remove Likes relation
 export async function DELETE(req: NextRequest) {
   const session = await getServerSession(authOptions);
   const currentUserEmail = session?.user?.email!;
@@ -42,3 +45,4 @@ export async function DELETE(req: NextRequest) {
   });
   return NextResponse.json(registerUnlike);
 }
+// (end) remove Likes relation

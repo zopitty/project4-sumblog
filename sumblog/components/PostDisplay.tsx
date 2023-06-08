@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import LikeServer from "./LikeServer";
 import Image from "next/image";
 import AuthCheck from "./AuthCheck";
 
@@ -11,7 +10,6 @@ interface Props {
   title: string | null;
   content: string | null;
   createdAt: Date;
-  heartCount: number | null;
   author: { name: string | null };
 }
 
@@ -20,7 +18,6 @@ export default function PostDisplay({
   title,
   content,
   createdAt,
-  heartCount,
   author,
 }: Props) {
   const [isUpdating, setIsUpdating] = useState(false);
@@ -67,11 +64,10 @@ export default function PostDisplay({
     timeStyle: "short",
     timeZone: "Singapore",
   });
-
   const newDate = f.format(new Date(createdAt));
 
   return (
-    <div className="px-12 py-2">
+    <div className="px-12 py-3">
       <div className="w-full rounded-lg border border-gray-200 bg-gray-200 shadow-md">
         <ul className="bg-gray-150 flex flex-wrap rounded-t-lg border-b border-gray-300 text-center text-sm font-medium text-gray-500">
           <li className="mr-2">
@@ -113,7 +109,7 @@ export default function PostDisplay({
           </AuthCheck>
         </ul>
 
-        <div className="rounded-lg bg-gray-200 p-4 md:p-8">
+        <div className="rounded-lg bg-gray-200 px-5 py-2">
           <h2 className="mb-3 text-3xl font-extrabold tracking-tight text-gray-900">
             {title}
           </h2>
@@ -129,18 +125,18 @@ export default function PostDisplay({
               fill="currentColor"
               viewBox="0 0 20 20"
             >
-              <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"></path>
+              <path d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" />
             </svg>
           </Link>
+          <div className="flex items-center">
+            <div className="px-1 py-4">
+              <Image src="/heart.svg" alt="likes:" width={15} height={15} />
+            </div>
+            <span className="font-roboto order-1 flex-none flex-grow-0 text-xs font-normal text-black">
+              {likes}
+            </span>
+          </div>
         </div>
-      </div>
-      <div className="flex items-center">
-        <div className="px-1 py-4">
-          <Image src="/heart.svg" alt="likes:" width={15} height={15} />
-        </div>
-        <span className="font-roboto order-1 flex-none flex-grow-0 text-xs font-normal leading-5 text-black">
-          {likes}
-        </span>
       </div>
     </div>
   );

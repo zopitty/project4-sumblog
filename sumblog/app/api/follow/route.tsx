@@ -3,18 +3,21 @@ import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "../auth/[...nextauth]/route";
 
+// create Follow relation
 export async function PUT(req: Request) {
-  // check current session to get user email
+  // access user
   const session = await getServerSession(authOptions);
   const currentUserEmail = session?.user?.email!;
   const { targetId } = await req.json();
 
   // NOTE!!!: session doesn't contain ID :(
   // ONLY contains name, email, image
+
   const user = await prisma.user.findUnique({
     where: { email: currentUserEmail },
   });
   const currentUserId = user?.id!;
+  // (end) access user
 
   const registerFollow = await prisma.follows.create({
     data: {
@@ -24,7 +27,9 @@ export async function PUT(req: Request) {
   });
   return NextResponse.json(registerFollow);
 }
+// (end) create Follow creation
 
+// remove Follow relation
 export async function DELETE(req: NextRequest) {
   const session = await getServerSession(authOptions);
   const currentUserEmail = session?.user?.email!;
@@ -44,3 +49,4 @@ export async function DELETE(req: NextRequest) {
   });
   return NextResponse.json(removeFollow);
 }
+// (end) Follow relation

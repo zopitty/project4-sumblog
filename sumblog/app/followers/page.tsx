@@ -19,11 +19,12 @@ export default async function Followers() {
   const currentUserId = user?.id!;
   // (end) access user
 
+  // get all followers
   const users = await prisma.follows.findMany({
     include: { follower: true },
     where: { followingUserId: currentUserId },
   });
-
+  // (end) get all followers
   return (
     <div className="flex flex-wrap gap-3 bg-slate-500 p-6">
       {users.map((user) => {

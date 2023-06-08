@@ -6,8 +6,6 @@ import PostDisplay from "@/components/PostDisplay";
 import AuthCheck from "@/components/AuthCheck";
 
 export default async function Home() {
-  const session = await getServerSession();
-
   const posts = await prisma.post.findMany({
     include: { author: true },
     orderBy: {
@@ -17,7 +15,6 @@ export default async function Home() {
 
   return (
     <main>
-      {/* {JSON.stringify(session)} */}
       <AuthCheck>
         <PostField />
       </AuthCheck>

@@ -7,6 +7,8 @@ import { redirect } from "next/navigation";
 // updating posts (by user ID/Post id)
 // note: usually PUT is to replace the whole thing
 // PATCH just the bits that you want updated
+
+// Update Post
 export async function PATCH(
   req: Request,
   { params }: { params: { id: string } }
@@ -24,15 +26,13 @@ export async function PATCH(
     },
   });
   const currentUserId = user?.id!;
-  const currentUserRole = user?.role;
   const post = await prisma.post.findFirst({
     where: { id: Number(params.id) },
     select: { userId: true },
   });
   const data = await req.json();
-  // data.xxx = Number(data.xxx), if database expecting number, ie want to patch number
-  // console.log(data);
-  if (currentUserId === post?.userId || currentUserRole === "admin") {
+  // ensure only user that posted can update
+  if (currentUserId === post?.userId) {
     const updated = await prisma.post.update({
       where: {
         id: Number(params.id),
@@ -50,6 +50,7 @@ export async function PATCH(
     });
   }
 }
+// (end) Update Post
 
 //Delete Post
 export async function DELETE(
@@ -74,6 +75,7 @@ export async function DELETE(
     where: { id: Number(params.id) },
     select: { userId: true },
   });
+  // ensure only user that commented or admin can delete
   if (currentUserId === post?.userId || currentUserRole === "admin") {
     const deleted = await prisma.post.delete({
       where: {
@@ -87,3 +89,4 @@ export async function DELETE(
     });
   }
 }
+// (end) Delete Post

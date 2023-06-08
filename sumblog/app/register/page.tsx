@@ -7,7 +7,6 @@ export default async function Register() {
   const session = await getServerSession();
   if (session) {
     redirect("/");
-    // return <p>You must be signed in...</p>;
   }
   return (
     <div className="flex h-screen w-screen items-center justify-center bg-slate-500">

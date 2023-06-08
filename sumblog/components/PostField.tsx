@@ -1,14 +1,12 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function PostField() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
   const [fetching, setFetching] = useState(false);
-
   const router = useRouter();
 
   const postData = async (e: React.FormEvent) => {

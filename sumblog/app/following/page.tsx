@@ -19,11 +19,12 @@ export default async function Followers() {
   const currentUserId = user?.id!;
   // (end) access user
 
+  // get all following
   const users = await prisma.follows.findMany({
     include: { following: true },
     where: { followerUserId: currentUserId },
   });
-  console.log(users);
+  // (end) get all following
 
   return (
     <div className="flex flex-wrap gap-3 bg-slate-500 p-6">
@@ -34,4 +35,4 @@ export default async function Followers() {
   );
 }
 
-//ts note: {..user} passes the properties into the component UserCard
+//ts note: {...user} passes the properties into the component UserCard

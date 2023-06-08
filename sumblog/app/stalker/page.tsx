@@ -35,7 +35,6 @@ export default async function Stalker() {
       createdAt: "desc",
     },
   });
-
   // (end) access following's post
 
   return (

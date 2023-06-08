@@ -20,10 +20,9 @@ export default function UserCard({ id, name, image, bio }: Props) {
           width={100}
           height={100}
         />
-        <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
+        <div className="mb-1 text-xl font-medium text-gray-900 dark:text-white">
           {name}
-        </h5>
-        {/* <span className="text-sm text-gray-500 dark:text-gray-400">{bio}</span> */}
+        </div>
         <div className="mt-4 flex space-x-3 md:mt-6">
           <Link
             href={`/users/${id}`}

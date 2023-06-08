@@ -10,7 +10,7 @@ export default function AuthProvider({ children }: Props) {
   return <SessionProvider>{children}</SessionProvider>;
 }
 
-//NOTE: if used directly in the layout it will throw an error (WHY LIDDAT T.T)
+//NOTE: if used directly in the layout it will throw an error (WHY  T.T)
 // why, read below:
 // uses client side features without saying is client compoenent
 // problem with nextjs component,

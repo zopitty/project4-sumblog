@@ -48,12 +48,14 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   const session = await getServerSession(authOptions);
+  if (!session) {
+    return new NextResponse(JSON.stringify({ error: "unauthorized" }));
+  }
   const currentUserEmail = session?.user?.email!;
   const user = await prisma.user.findUnique({
     where: { email: currentUserEmail },
   });
   const currentUserId = user?.id!;
-
   const data = await req.json();
   const created = await prisma.comment.create({
     data: {

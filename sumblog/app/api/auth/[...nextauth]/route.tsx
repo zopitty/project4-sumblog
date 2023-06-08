@@ -57,7 +57,6 @@ export const authOptions: NextAuthOptions = {
           id: user.id + "", //making it a string type kek
           email: user.email,
           name: user.name,
-          randomKey: "monkey",
         };
       },
     }),
@@ -78,7 +77,7 @@ export const authOptions: NextAuthOptions = {
     },
     //creation and management of jwt
     jwt: async ({ token, user }) => {
-      console.log("JWT callback: ", { token, user });
+      // console.log("JWT callback: ", { token, user });
       if (user) {
         return {
           ...token,
@@ -89,8 +88,8 @@ export const authOptions: NextAuthOptions = {
     },
   },
 };
-// THE FLOW: JWT callback first, user: defined then session
-//if we want to pass info, after authorised > user info > JWT > session
+// THE FLOW: JWT callback first, user: defined then Session callback
+//if want to pass info, after authorised > user info > JWT > session
 
 // any GET or POST request will be handled by nextauth
 const handler = NextAuth(authOptions);

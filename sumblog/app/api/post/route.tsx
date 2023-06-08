@@ -7,6 +7,9 @@ import { authOptions } from "../auth/[...nextauth]/route";
 export async function PUT(req: Request) {
   // get user info
   const session = await getServerSession(authOptions);
+  if (!session) {
+    return;
+  }
   const currentUserEmail = session?.user?.email!;
   const user = await prisma.user.findUnique({
     where: { email: currentUserEmail },
@@ -22,7 +25,9 @@ export async function PUT(req: Request) {
   });
   return NextResponse.json(registerPost);
 }
+// (end) adding new posts
 
+// Get all posts
 export async function GET(req: Request) {
   const posts = await prisma.post.findMany();
   return NextResponse.json(posts);

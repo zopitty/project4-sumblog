@@ -1,8 +1,6 @@
 import FollowServer from "@/components/FollowServer";
 import { prisma } from "@/lib/prisma";
 import Image from "next/image";
-// import { Metadata } from "next";
-//consider adding metadata?
 
 interface Props {
   params: {
@@ -13,7 +11,7 @@ interface Props {
 export default async function UserProfile({ params }: Props) {
   const user = await prisma.user.findUnique({ where: { id: params.id } });
   const { name, bio, image, age } = user ?? {};
-  // console.log(user?.id);
+
   return (
     <div>
       <h1>{name}</h1>
@@ -25,6 +23,7 @@ export default async function UserProfile({ params }: Props) {
         height={200}
       />
       <h3>{bio}</h3>
+      {/* Server Component */}
       {/* @ts-expect-error */}
       <FollowServer targetId={params.id} />
     </div>
