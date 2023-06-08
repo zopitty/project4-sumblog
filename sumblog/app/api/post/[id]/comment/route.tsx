@@ -22,6 +22,26 @@ import { NextResponse } from "next/server";
 //   });
 //   return NextResponse.json(data);
 // }
+export async function GET(
+  req: Request,
+  { params }: { params: { id: string } }
+) {
+  const data = await prisma.comment.findMany({
+    where: {
+      postId: Number(params.id),
+      parentId: null,
+    },
+    include: {
+      author: {
+        select: {
+          name: true,
+        },
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+  return NextResponse.json(data);
+}
 
 export async function PUT(
   req: Request,
@@ -44,5 +64,3 @@ export async function PUT(
   });
   return new NextResponse(JSON.stringify(created));
 }
-
-

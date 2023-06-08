@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface Props {
@@ -27,8 +28,16 @@ export default function LikeClient({ targetId, isLiked }: Props) {
   };
 
   if (isLiked) {
-    return <button onClick={unlike}>{`Unlike`}</button>;
+    return (
+      <button onClick={unlike}>
+        <Image src="/filledHeart.svg" alt="likes:" width={15} height={15} />
+      </button>
+    );
   } else {
-    return <button onClick={like}>{`Like`}</button>;
+    return (
+      <button onClick={like}>
+        <Image src="/heart.svg" alt="likes:" width={15} height={15} />
+      </button>
+    );
   }
 }

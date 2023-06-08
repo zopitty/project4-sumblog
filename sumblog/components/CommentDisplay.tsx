@@ -11,6 +11,7 @@ interface Props {
   author: { name: string | null };
   userId: string;
   postId: number;
+  parentId: number | null;
 }
 
 export default function CommentDisplay({
@@ -19,6 +20,7 @@ export default function CommentDisplay({
   author,
   createdAt,
   userId,
+  parentId,
   postId,
 }: Props) {
   const [subComment, setSubComment] = useState("");
@@ -41,6 +43,14 @@ export default function CommentDisplay({
     const data = await res.json();
     setReplies(data);
     console.log("GETTING ID: ", id);
+  };
+  const getParentReplies = async () => {
+    const res = await fetch(`/api/post/${postId}/comment/${parentId}`, {
+      cache: "no-store",
+    });
+    const data = await res.json();
+    setReplies(data);
+    console.log("GETTING PARENT ID: ", parentId);
   };
 
   const postReply = async (e: React.FormEvent) => {
@@ -67,18 +77,22 @@ export default function CommentDisplay({
     });
 
     if (res.status === 200) {
-      // setReplies((prevComments) => {
-      //   return prevComments.filter((comment) => comment.id !== id);
-      // });
+      setReplies((prevComments) => {
+        return prevComments.filter((comment) => comment.id !== id);
+      });
 
       // const res = await fetch(`/api/post/${postId}/comment/${id}`, {
       //   cache: "no-store",
       // });
       // const data = await res.json();
+      if (parentId) {
+        window.location.reload();
+      }
       setReplies([]);
       // setReplies((prevComments) =>
       //   prevComments.filter((comment) => comment.id !== id)
       // );
+      getParentReplies();
       console.log("DELETE ID: ", id);
       console.log(replies);
       router.refresh();
@@ -95,14 +109,15 @@ export default function CommentDisplay({
   return (
     <div className="flex flex-col border-[1px] border-zinc-400 p-3">
       <span>
-        {author.name} @ {newDate}
+        {author.name} @ {newDate}{" "}
+        <button
+          onClick={() => deleteComment(id)}
+          className="w-28 rounded-full border-[1px] border-zinc-400"
+        >
+          DELETE
+        </button>
       </span>
-      <button
-        onClick={() => deleteComment(id)}
-        className="w-28 rounded-full border-[1px] border-zinc-400"
-      >
-        DELETE
-      </button>
+
       <span>{comment}</span>
       {isReplying ? (
         <button
@@ -138,7 +153,7 @@ export default function CommentDisplay({
       {replies.map((reply) => {
         return (
           <div key={reply.id} className="mt-2">
-            <CommentDisplay {...reply} />;
+            <CommentDisplay {...reply} />
           </div>
         );
       })}

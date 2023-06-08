@@ -14,11 +14,10 @@ export default async function Home() {
       createdAt: "desc",
     },
   });
-  
 
   return (
     <main>
-      {JSON.stringify(session)}
+      {/* {JSON.stringify(session)} */}
       <AuthCheck>
         <PostField />
       </AuthCheck>

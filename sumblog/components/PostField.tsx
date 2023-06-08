@@ -1,15 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 export default function PostField() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+
+  const [fetching, setFetching] = useState(false);
+
   const router = useRouter();
 
   const postData = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    setFetching(true);
     const res = await fetch("/api/post", {
       method: "PUT",
       headers: {
@@ -18,43 +23,59 @@ export default function PostField() {
       body: JSON.stringify({ title, content }),
     });
     if (res.status === 200) {
+      setFetching(false);
       setContent("");
       setTitle("");
       router.refresh();
     } else {
       console.log(res);
-      alert("error");
+      alert("error posting, chrome console");
     }
   };
   return (
-    <form onSubmit={postData}>
-      <h3>Create Post</h3>
-      <input
-        type="text"
-        placeholder="Title"
-        id="small-input"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="sm:text-M block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-      />
-      <div className="mb-4 w-full rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700">
-        <div className="rounded-t-lg bg-white px-4 py-2 dark:bg-gray-800">
+    <div className="w-1300 h-387 order-0 pt-13 flex flex-none flex-grow-0 flex-col items-center gap-16 rounded-lg bg-gray-200 px-12">
+      <form
+        onSubmit={postData}
+        className="w-1216 h-291 order-0 flex flex-none flex-grow-0 flex-col items-start gap-2 self-stretch rounded-xl p-10 shadow-lg"
+      >
+        <div className="w-1216 order-1 flex h-7 flex-none flex-grow-0 flex-row items-start gap-2 p-0">
+          <span className="w-141 font-circular order-0 h-7 flex-none flex-grow-0 font-medium text-black">
+            Write a post.
+          </span>
+        </div>
+        <div className="w-1216 order-2 flex flex-none flex-grow-0 flex-col items-start gap-2 self-stretch p-0">
+          <input
+            className="w-1216 order-0 flex flex-none flex-grow-0 flex-col items-start gap-2 self-stretch rounded-lg  bg-white  p-2"
+            type="text"
+            placeholder="Title"
+            id="small-input"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+
           <textarea
+            className="order-0 flex flex-row items-center gap-2 self-stretch rounded-lg bg-white p-3"
             id="comment"
-            rows={4}
-            className="w-full border-0 bg-white px-0 text-sm text-gray-900 focus:ring-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400"
+            rows={2}
             placeholder="Write a post..."
             required
             value={content}
             onChange={(e) => setContent(e.target.value)}
-          ></textarea>
+          />
         </div>
-        <div className="flex items-center justify-between border-t px-3 py-2 dark:border-gray-600">
-          <button className="inline-flex items-center rounded-lg bg-blue-700 px-4 py-2.5 text-center text-xs font-medium text-white hover:bg-blue-800 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900">
-            Post!!
+        {fetching ? (
+          <button
+            disabled
+            className="w-91 w-51 font-circular order-0 order-3 mt-1 flex h-6 flex-none flex-grow-0 flex-row items-center justify-center gap-2 rounded-lg border border-gray-600 bg-gray-600 p-2 text-base font-medium leading-6 text-white"
+          >
+            wait.
           </button>
-        </div>
-      </div>
-    </form>
+        ) : (
+          <button className="w-91 w-51 font-circular order-0 order-3 mt-1 flex h-6 flex-none flex-grow-0 flex-row items-center justify-center gap-2 rounded-lg border border-black bg-black p-2 text-base font-medium leading-6 text-white">
+            Post it!
+          </button>
+        )}
+      </form>
+    </div>
   );
 }
