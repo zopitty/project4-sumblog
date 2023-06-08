@@ -39,7 +39,11 @@ export default async function Stalker() {
 
   return (
     <>
-      {postsByFollowing.length === 0 && <>FOLLOW SOMEONE!/No posts yet..</>}
+      {postsByFollowing.length === 0 && (
+        <div className="flex-start flex flex-wrap px-48 py-4 text-gray-500">
+          FOLLOW SOMEONE!/No posts yet..
+        </div>
+      )}
       {postsByFollowing.map((post) => {
         return <PostDisplay key={post.id} {...post} />;
       })}

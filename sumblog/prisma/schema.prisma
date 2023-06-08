@@ -74,7 +74,7 @@ followingUserId String
 model Post {
   id            Int @id @default(autoincrement())
   title         String?
-  content       String?
+  content       String? @db.Text
   likes         Likes[] @relation("PostLikes")
 
   author        User @relation("WrittenPosts", fields:[userId], references:[id])

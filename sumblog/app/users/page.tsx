@@ -30,7 +30,7 @@ export default async function Users() {
   // (end) get all users except for current user
 
   return (
-    <div className="flex flex-wrap gap-3 bg-slate-500 p-6">
+    <div className="flex flex-wrap gap-3 p-6">
       {users.map((user) => {
         return <UserCard key={user.id} {...user} />;
       })}

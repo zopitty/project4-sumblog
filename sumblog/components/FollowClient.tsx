@@ -32,8 +32,18 @@ export default function FollowClient({ targetId, isFollowing }: Props) {
   };
 
   if (isFollowing) {
-    return <button onClick={unfollow}>{`Unfollow`}</button>;
+    return (
+      <button
+        onClick={unfollow}
+        className="inline-flex items-center rounded-lg bg-gray-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-4 focus:ring-purple-300"
+      >{`Unfollow`}</button>
+    );
   } else {
-    return <button onClick={follow}>{`Follow`}</button>;
+    return (
+      <button
+        onClick={follow}
+        className="inline-flex items-center rounded-lg bg-gray-900 px-4 py-2 text-center text-sm font-medium text-white hover:bg-gray-500 focus:outline-none focus:ring-4 focus:ring-purple-300"
+      >{`Follow`}</button>
+    );
   }
 }

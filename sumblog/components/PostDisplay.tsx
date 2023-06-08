@@ -110,7 +110,7 @@ export default function PostDisplay({
           <div className="mb-3 text-3xl font-extrabold tracking-tight text-gray-900">
             {title}
           </div>
-          <div className="mb-3 text-gray-500 dark:text-gray-400">
+          <div className="mb-3 truncate text-gray-500 dark:text-gray-400">
             {content}
             {/* prettier-ignore */}
 
@@ -166,16 +166,8 @@ export default function PostDisplay({
             </svg>
           </Link>
           <div className="flex items-center">
-            <div className="px-1 py-4">
-              <Image
-                src="/filledHeart.svg"
-                alt="likes:"
-                width={15}
-                height={15}
-              />
-            </div>
-            <span className="font-roboto order-1 flex-none flex-grow-0 text-xs font-normal text-black">
-              {likes}
+            <span className="font-roboto order-1 flex-none flex-grow-0 py-4 text-xs font-normal text-black">
+              {likes} likes
             </span>
           </div>
         </div>
