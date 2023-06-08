@@ -35,10 +35,7 @@ export async function GET(
 //(end) comments with Parents
 
 //delete comment
-export async function DELETE(
-  req: Request,
-  { params: { id, commentId } }: Props
-) {
+export async function DELETE(req: Request, { params: { commentId } }: Props) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return new NextResponse(JSON.stringify({ error: "no session" }), {
@@ -51,16 +48,16 @@ export async function DELETE(
       email: currentUserEmail,
     },
   });
-  const currentUserId = user?.id;
+  const currentUserId = user?.id!;
   console.log(user?.id);
   const currentUserRole = user?.role;
   console.log(currentUserId);
   const comment = await prisma.comment.findFirst({
-    where: { id: Number(id) },
+    where: { id: Number(commentId) },
     select: { userId: true },
   });
   // ensure only user that commented or admin can delete
-  if (currentUserId === comment?.userId) {
+  if (currentUserId === comment?.userId || currentUserRole === "admin") {
     const deleted = await prisma.comment.delete({
       where: {
         id: Number(commentId),
