@@ -25,12 +25,9 @@ export default function PostDisplay({
   const [newPost, setNewPost] = useState("");
   const [likes, setLikes] = useState(0);
   const router = useRouter();
+  // callback from next-auth puts in the id & role
   const { data: session } = useSession();
 
-  // callback from next-auth puts in the id & role
-
-  console.log(session);
-  // console.log("YOUR ROLE", session?.user?.role);
   const deletePost = async (id: number) => {
     const res = await fetch(`/api/post/${id}`, {
       method: "DELETE",

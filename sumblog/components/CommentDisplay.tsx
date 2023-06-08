@@ -3,6 +3,8 @@
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import AuthCheck from "./AuthCheck";
+import { useSession } from "next-auth/react";
 
 interface Props {
   id: number;
@@ -27,6 +29,8 @@ export default function CommentDisplay({
   const [isReplying, setIsReplying] = useState(false);
   const router = useRouter();
   const [replies, setReplies] = useState<Props[]>([]);
+  // callback from next-auth puts in the id & role
+  const { data: session } = useSession();
 
   const f = new Intl.DateTimeFormat("en-GB", {
     dateStyle: "long",
@@ -43,14 +47,6 @@ export default function CommentDisplay({
     const data = await res.json();
     setReplies(data);
     console.log("GETTING ID: ", id);
-  };
-  const getParentReplies = async () => {
-    const res = await fetch(`/api/post/${postId}/comment/${parentId}`, {
-      cache: "no-store",
-    });
-    const data = await res.json();
-    setReplies(data);
-    console.log("GETTING PARENT ID: ", parentId);
   };
 
   const postReply = async (e: React.FormEvent) => {
@@ -97,52 +93,62 @@ export default function CommentDisplay({
   }, []);
 
   return (
-    <div className="flex flex-col border-[1px] border-zinc-400 p-3">
-      <span>
-        {author.name} @ {newDate}{" "}
-        <button
-          onClick={() => deleteComment(id)}
-          className="w-28 rounded-full border-[1px] border-purple-400"
-        >
-          DELETE
-        </button>
+    <div className="flex flex-col border-l-[1px] border-zinc-300 p-3">
+      <span className="pb-1">
+        <div className="flex items-center p-0">
+          <span className="order-0 mr-2 flex w-20 flex-none flex-grow-0 flex-row justify-center rounded-md bg-purple-400 p-0 text-sm text-gray-200">
+            {author.name}
+          </span>
+          <span className="font-roboto h-5 text-xs font-normal leading-5 text-black">
+            {newDate}
+          </span>
+          <AuthCheck>
+            <button
+              onClick={() => deleteComment(id)}
+              className="ml-2 w-20 rounded-full border-[1px] border-purple-400 text-xs"
+            >
+              DELETE
+            </button>
+          </AuthCheck>
+        </div>
       </span>
 
-      <span>{comment}</span>
-      {isReplying ? (
-        <button
-          onClick={() => setIsReplying(false)}
-          className="w-28 rounded-full border-[1px] border-purple-400"
-        >
-          cancel
-        </button>
-      ) : (
-        <button
-          onClick={() => setIsReplying(true)}
-          className="w-28 rounded-full border-[1px] border-purple-400"
-        >
-          Reply
-        </button>
-      )}
-      {isReplying && (
-        <form onSubmit={postReply} className="flex flex-col gap-2">
-          <input
-            autoFocus
-            type="text"
-            value={subComment}
-            onChange={(e) => setSubComment(e.target.value)}
-            placeholder="What are your thoughts"
-            className="w-1/2 border-[1px] border-zinc-400 p-4"
-          />
-          <button className="w-28 rounded-full border-[1px] border-zinc-400">
-            Comment
+      <span className="ml-2 pb-2 pt-1">{comment}</span>
+      <AuthCheck>
+        {isReplying ? (
+          <button
+            onClick={() => setIsReplying(false)}
+            className="w-24 rounded-full border-[1px] border-purple-400 text-sm"
+          >
+            cancel
           </button>
-        </form>
-      )}
-
+        ) : (
+          <button
+            onClick={() => setIsReplying(true)}
+            className="w-24 rounded-full border-[1px] border-purple-400 text-sm"
+          >
+            Reply
+          </button>
+        )}
+        {isReplying && (
+          <form onSubmit={postReply} className="flex flex-col gap-2 pt-1">
+            <input
+              autoFocus
+              type="text"
+              value={subComment}
+              onChange={(e) => setSubComment(e.target.value)}
+              placeholder="What are your thoughts"
+              className="w-1/2 border-[1px] border-zinc-400 p-4"
+            />
+            <button className="w-28 rounded-full border-[1px] border-zinc-400 text-sm">
+              Comment
+            </button>
+          </form>
+        )}
+      </AuthCheck>
       {replies.map((reply) => {
         return (
-          <div key={reply.id} className="mt-2">
+          <div key={reply.id} className="ml-3 mt-2">
             <CommentDisplay {...reply} onChildDelete={getReplies} />
           </div>
         );

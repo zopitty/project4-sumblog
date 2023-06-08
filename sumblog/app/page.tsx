@@ -1,9 +1,7 @@
 import PostField from "@/components/PostField";
 import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import PostDisplay from "@/components/PostDisplay";
-import AuthCheck from "@/components/AuthCheck";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import Link from "next/link";
 

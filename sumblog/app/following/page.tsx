@@ -27,10 +27,12 @@ export default async function Followers() {
   // (end) get all following
 
   return (
-    <div className="flex flex-wrap gap-3 bg-slate-500 p-6">
-      {users.map((user) => {
-        return <UserCard key={user.following.id} {...user.following} />;
-      })}
+    <div className="flex justify-center">
+      <div className="flex flex-wrap items-center justify-center gap-3 p-6">
+        {users.map((user) => {
+          return <UserCard key={user.following.id} {...user.following} />;
+        })}
+      </div>
     </div>
   );
 }

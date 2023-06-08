@@ -31,9 +31,9 @@ export default function EditProfile({ user }: any) {
   };
   return (
     <div>
-      <h1>Edit Profile</h1>
+      <div className="pb-2">Your Profile</div>
       <div className="flex">
-        <h3>NAME: </h3>
+        <div className="mr-1">NAME: </div>
         <input
           type="text"
           placeholder="name"
@@ -43,8 +43,8 @@ export default function EditProfile({ user }: any) {
           }}
         />
       </div>
-      <div className="flex">
-        <h3>BIO: </h3>
+      <div className="flex py-2">
+        <div className="mr-1">BIO: </div>
         <input
           type="text"
           placeholder="bio"
@@ -54,24 +54,24 @@ export default function EditProfile({ user }: any) {
           }}
         />
       </div>
-      <div className="flex">
-        <h3>IMG: </h3>
+      <div className="flex pb-2">
+        <div className="mr-1">AGE: </div>
         <input
           type="text"
-          placeholder="image link"
+          placeholder="age"
           value={updateAge}
           onChange={(e) => {
             setUpdateAge(Number(e.target.value));
           }}
         />
       </div>
-
       <button
+        className="rounded-lg border-[1px] border-zinc-400 px-2"
         onClick={() => {
           updateProfile();
         }}
       >
-        Update
+        Save
       </button>
     </div>
   );

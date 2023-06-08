@@ -32,13 +32,15 @@ export default async function Dashboard() {
   });
 
   return (
-    <>
-      <h1>Dashboard</h1>
-      <h2>
-        <Link href="/following">FOLLOWING: {countFollowing}</Link>{" "}
-        <Link href="/followers">FOLLOWERS: {countFollowers}</Link>
-      </h2>
-      <EditProfile user={user} />
-    </>
+    <div className="flex w-screen items-center justify-center">
+      <div className="flex max-w-xl flex-col items-center rounded-xl p-10 shadow-md">
+        <div className="py-2 text-xl font-bold">Dashboard</div>
+        <div className="pb-5 font-semibold">
+          <Link href="/following">FOLLOWING: {countFollowing}</Link>{" "}
+          <Link href="/followers">FOLLOWERS: {countFollowers}</Link>
+        </div>
+        <EditProfile user={user} />
+      </div>
+    </div>
   );
 }
