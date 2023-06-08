@@ -49,9 +49,7 @@ export async function DELETE(req: Request, { params: { commentId } }: Props) {
     },
   });
   const currentUserId = user?.id!;
-  console.log(user?.id);
   const currentUserRole = user?.role;
-  console.log(currentUserId);
   const comment = await prisma.comment.findFirst({
     where: { id: Number(commentId) },
     select: { userId: true },

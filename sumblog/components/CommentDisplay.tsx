@@ -31,8 +31,6 @@ export default function CommentDisplay({
   const [replies, setReplies] = useState<Props[]>([]);
   // callback from next-auth puts in the id & role
   const { data: session } = useSession();
-  // @ts-expect-error
-  console.log(session?.user?.id);
 
   const f = new Intl.DateTimeFormat("en-GB", {
     dateStyle: "long",
@@ -58,14 +56,12 @@ export default function CommentDisplay({
       setSubComment("");
       setIsReplying(false);
       getReplies();
-      setReplies([]);
     } else {
       console.log(res);
       alert("error");
     }
   };
   const deleteComment = async (id: number) => {
-    console.log(postId, id);
     const res = await fetch(`/api/post/${postId}/comment/${id}`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },

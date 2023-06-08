@@ -14,7 +14,6 @@ export async function PATCH(req: NextRequest) {
   const data = await req.json();
   // data.xxx = Number(data.xxx), if database expecting number, ie want to patch number
 
-  // console.log(data);
   const user = await prisma.user.update({
     where: {
       email: currentUserEmail,
