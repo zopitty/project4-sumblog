@@ -116,7 +116,7 @@ API routes are created where server actions are not possible in the arrangement 
 
 ![Individual Post Page](sumblog/public/assets/individualpostpage.png)
 
-![Individual Post Page (authenticated)](sumblog/public/assets/individualpost.png)
+![Individual Post Page (authenticated)](sumblog/public/assets/individualpostauthenticated.png)
 
 ### Nested Comments
 
