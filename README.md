@@ -108,7 +108,7 @@ API routes are created where server actions are not possible in the arrangement 
 
 ### Home page
 
-![Home Page](sumblog/public/assets/homepage.png)
+![Home Page](sumblog/public/assets/homepage1.png)
 
 ![Home Page (authenticated)](sumblog/public/assets/homepageauthenitcated.png)
 
