@@ -106,6 +106,30 @@ The comments model contains a parent and child relation which relates back to it
 
 API routes are created where server actions are not possible in the arrangement of components and a client componenet needs to be used. Most of the API routes are create to delete, update and create. Reading is mostly done on the server components via server actions.
 
+### Home page
+
+![Home Page](sumblog/public/assets/homepage.png)
+
+![Home Page (authenticated)](sumblog/public/assets/homepageauthenitcated.png)
+
+### Individual Post
+
+![Individual Post Page](sumblog/public/assets/individualpostpage.png)
+
+![Individual Post Page (authenticated)](sumblog/public/assets/individualpost.png)
+
+### Nested Comments
+
+![Nested Comments](sumblog/public/assets/nestedcomments.png)
+
+### Users
+
+![Users Page](sumblog/public/assets/userspage.png)
+
+### Profile Page
+
+![Profile Page](sumblog/public/assets/profilepage.png)
+
 # Created by
 
 - Tan Bing Hong
