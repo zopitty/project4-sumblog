@@ -110,11 +110,15 @@ API routes are created where server actions are not possible in the arrangement 
 
 ![Home Page](sumblog/public/assets/homepage1.png)
 
+#### Logged in
+
 ![Home Page (authenticated)](sumblog/public/assets/homepageauthenitcated.png)
 
 ### Individual Post
 
 ![Individual Post Page](sumblog/public/assets/individualpostpage.png)
+
+#### Logged in
 
 ![Individual Post Page (authenticated)](sumblog/public/assets/individualpostauthenticated.png)
 
