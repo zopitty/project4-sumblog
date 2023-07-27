@@ -60,6 +60,9 @@ model User {
   writtenPosts    Post[] @relation("WrittenPosts")
   writtenComments Comment[] @relation("WrittenComments")
   likes           Likes[] @relation("UserLikes")
+
+  chat            Chat[] @relation("participants")
+  message         Message[] @relation("sender")
 }
 
 model Follows {
@@ -111,6 +114,28 @@ post          Post @relation("PostLikes", fields: [postId], references: [id], on
 postId        Int
 
 @@id([userId, postId])
+}
+
+model Chat {
+  id              String @id @default(cuid())
+
+  createdAt       DateTime @default(now())
+
+  participants    User[] @relation("participants")
+
+  message         Message[] @relation("messages")
+}
+
+model Message {
+  id          String @id @default(cuid())
+  content     String
+  createdAt   DateTime @default(now())
+
+  chat        Chat @relation("messages", fields: [chatId], references: [id])
+  chatId      String
+
+  sender      User @relation("sender", fields: [senderId], references: [id])
+  senderId    String
 }
 
 model VerificationToken {
